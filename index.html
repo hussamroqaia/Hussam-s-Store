@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="mytheme">
+<html lang="en" class="scroll-smooth" data-theme="mytheme">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,41 +23,48 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <header class="bg-neutral p-4 shadow-md mx-auto sticky top-0 z-50">
+    <header class="bg-neutral sticky top-0 z-50 shadow-md">
       <nav
-        class="mx-auto flex justify-between items-center max-w-7xl px-4 sm:px-8 lg:px-6"
+        class="mx-auto flex items-center justify-between max-w-7xl px-4 sm:px-8 lg:px-6 py-4"
       >
-        <div class="text-xl text-primary font-semibold">Hussam's Store</div>
-        <ul
-          class="flex justify-center items-center gap-10 text-base font-semibold"
+        <a href="#" class="text-xl text-primary font-semibold"
+          >Hussam's Store</a
         >
-          <li class="hover:text-primary transition-all">
-            <a href="#">Home</a>
+
+        <ul class="hidden md:flex items-center gap-8 text-base font-semibold">
+          <li
+            class="hover:text-primary hover:bg-black/10 p-1 rounded-md cursor-pointer transition"
+          >
+            <a class="p-4 py-4" href="#">Home</a>
           </li>
-          <li class="hover:text-primary transition-all">
-            <a href="#">Products</a>
+          <li
+            class="hover:text-primary hover:bg-black/10 p-1 rounded-md cursor-pointer transition"
+          >
+            <a href="#products" class="p-4 py-4">Products</a>
           </li>
-          <li class="hover:text-primary transition-all">
-            <a href="#">Categores</a>
-          </li>
-          <li class="hover:text-primary transition-all">
-            <a href="#">Contact</a>
+
+          <li
+            class="hover:text-primary hover:bg-black/10 p-1 rounded-md cursor-pointer transition"
+          >
+            <a href="#" class="p-4 py-4">Contact</a>
           </li>
         </ul>
-        <div class="flex gap-7">
-          <button id="openDialog2">
+
+        <div class="flex items-center gap-3">
+          <button
+            id="openDialog2"
+            class="relative inline-flex items-center justify-center size-9 rounded-md text-sm font-medium hover:bg-[rgb(149,22,33,0.7)] hover:text-white transition-all text-base cursor-pointer"
+          >
             <svg
               id="heart"
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
               viewBox="0 0 24 24"
+              class="h-5 w-5"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="lucide lucide-heart h-5 w-5 text-base relative hover:text-primary transition-all"
             >
               <path
                 d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
@@ -65,21 +72,23 @@
             </svg>
             <span
               id="likesCounter"
-              class="hidden border text-xs font-medium border-transparent absolute -top-[-10%] -right-[-5.5%] h-5 w-5 rounded-full p-0 flex items-center justify-center bg-red-500"
+              class="hidden absolute -top-[35%] -right-[35%] h-5 w-5 rounded-full bg-red-500 text-xs font-medium !text-white flex items-center justify-center"
             ></span>
           </button>
-          <button id="openDialog3">
+
+          <button
+            id="openDialog3"
+            class="relative inline-flex items-center justify-center size-9 rounded-md text-sm font-medium hover:bg-[rgb(149,150,33,0.7)] hover:text-white text-base transition-all cursor-pointer"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
+              class="h-5 w-5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="lucide lucide-shopping-cart h-5 w-5 text-base hover:text-primary transition-all"
             >
               <circle cx="8" cy="21" r="1"></circle>
               <circle cx="19" cy="21" r="1"></circle>
@@ -89,12 +98,67 @@
             </svg>
             <span
               id="basketCounter"
-              class="hidden border text-xs font-medium border-transparent absolute -top-[-10%] -right-[-1.5%] h-5 w-5 rounded-full p-0 flex items-center justify-center bg-primary"
+              class="hidden absolute -top-[35%] -right-[35%] h-5 w-5 rounded-full bg-primary text-xs font-medium text-white flex items-center justify-center"
               >0</span
             >
           </button>
+
+          <button
+            id="menuToggle"
+            class="md:hidden inline-flex items-center justify-center size-10 rounded-md hover:bg-black/10 transition-all"
+            aria-label="Toggle menu"
+            aria-controls="mobileMenu"
+            aria-expanded="false"
+          >
+            <span class="sr-only">Open main menu</span>
+            <span
+              class="relative flex flex-col items-center justify-center w-7 h-7 space-y-1.5"
+            >
+              <span
+                id="bar1"
+                class="block h-0.5 w-7 bg-current rounded transition-transform duration-300 ease-in-out"
+              ></span>
+              <span
+                id="bar2"
+                class="block h-0.5 w-7 bg-current rounded transition-opacity duration-300 ease-in-out"
+              ></span>
+              <span
+                id="bar3"
+                class="block h-0.5 w-7 bg-current rounded transition-transform duration-300 ease-in-out"
+              ></span>
+            </span>
+          </button>
         </div>
       </nav>
+      <div
+        id="mobileMenu"
+        class="md:hidden max-h-0 overflow-hidden transition-[max-height] duration-300 ease-out bg-neutral/95"
+      >
+        <ul class="px-4 py-2 space-y-2 text-base font-semibold">
+          <li>
+            <a
+              class="block rounded-md px-3 py-2 hover:bg-black/10 hover:text-primary"
+              href="#"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              class="block rounded-md px-3 py-2 hover:bg-black/10 hover:text-primary"
+              href="#products"
+              >Products</a
+            >
+          </li>
+
+          <li>
+            <a
+              class="block rounded-md px-3 py-2 hover:bg-black/10 hover:text-primary"
+              href="#"
+              >Contact</a
+            >
+          </li>
+        </ul>
+      </div>
     </header>
 
     <main class="bg-base">
@@ -103,21 +167,34 @@
         class="py-20 text-white bg-gradient-to-b from-neutral from-[5%] to-secondary to-[95%]"
       >
         <div
-          class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-6 flex flex-col justify-center gap-5 items-center"
+          class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-6 grid grid-cols-1 md:grid-cols-2 items-center gap-10"
         >
-          <h1 class="text-6xl text-base">Discover Amazing Products</h1>
-          <h2 class="text-2xl text-base">
-            Shop the latest trends with unbeatable prices
-          </h2>
-          <button
-            class="bg-primary text-base hover:text-primary hover:bg-base font-medium rounded-md p-2 cursor-pointer transition-all"
-          >
-            Shop Now
-          </button>
+          <div class="flex flex-col justify-center gap-5 order-2 md:order-1">
+            <h1 class="text-5xl md:text-6xl font-bold">
+              Discover Amazing Products
+            </h1>
+            <h2 class="text-2xl font-medium">
+              Shop the latest trends with unbeatable prices
+            </h2>
+            <a
+              href="#products"
+              class="bg-primary text-base hover:text-primary hover:bg-base font-medium rounded-md p-3 cursor-pointer transition-all px-8 w-fit"
+            >
+              Shop Now
+            </a>
+          </div>
+
+          <div class="flex justify-center order-1 md:order-2">
+            <img
+              src="https://images.pexels.com/photos/5632391/pexels-photo-5632391.jpeg?auto=compress&cs=tinysrgb&w=1000"
+              alt="E-commerce shopping bags"
+              class="rounded-2xl shadow-lg w-full max-w-md"
+            />
+          </div>
         </div>
       </section>
 
-      <section class="py-20">
+      <section id="products" class="py-20 scroll-mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex flex-col sm:flex-row gap-4 mb-8">
             <div class="relative flex-1">
@@ -143,10 +220,68 @@
                 value=""
               />
             </div>
+            <div class="relative inline-block text-left">
+              <button
+                id="dropdownBtn"
+                class="h-9 rounded-xl border border-primary px-3 text-sm bg-base text-primary flex items-center justify-between w-40 focus:outline-none focus:ring-2 focus:ring-primary"
+              >
+                Category
+                <svg
+                  class="w-4 h-4 ml-2"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+
+              <div
+                id="dropdownMenu"
+                class="absolute mt-2 w-40 rounded-xl border border-primary bg-white shadow-lg hidden z-50"
+              >
+                <button
+                  id="all"
+                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all"
+                >
+                  All
+                </button>
+                <button
+                  id="beauty"
+                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all"
+                >
+                  Beauty
+                </button>
+                <button
+                  id="fragrances"
+                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all"
+                >
+                  Fragrances
+                </button>
+                <button
+                  id="furniture"
+                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all"
+                >
+                  Furniture
+                </button>
+                <button
+                  id="groceries"
+                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all"
+                >
+                  Groceries
+                </button>
+              </div>
+            </div>
             <div class="flex gap-2">
               <button
-                data-slot="button"
-                class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all text-primary-foreground shadow-xs size-9 bg-purple-600 hover:bg-purple-700"
+                id="gridLayout"
+                class="hidden sm:inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all text-primary-foreground shadow-xs size-9 bg-gray-300 hover:bg-gray-400 cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -168,8 +303,8 @@
                 </svg>
               </button>
               <button
-                data-slot="button"
-                class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 size-9"
+                id="toggleLayout"
+                class="hidden  sm:inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all text-primary-foreground shadow-xs size-9 bg-gray-300 hover:bg-gray-400 cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -194,7 +329,7 @@
             </div>
             <button
               id="openDialog"
-              class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all text-white shadow-xs h-9 px-4 py-2 bg-green-600 hover:bg-green-700"
+              class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all text-neutral shadow-xs h-9 px-4 py-2 bg-accent hover:bg-primary cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -215,9 +350,8 @@
             </button>
           </div>
         </div>
-        <!--  -->
         <div
-          class="cards flex justify-center items-center flex-wrap gap-5"
+          class="cards flex justify-center items-center flex-wrap gap-5 px-6 max-w-7xl mx-auto"
         ></div>
       </section>
     </main>
@@ -242,7 +376,8 @@
             class="flex h-9 w-full min-w-0 rounded-md border border-secondary bg-base px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none"
             id="title"
             placeholder="Enter product name"
-            required=""
+            data-validation="required"
+            name="product_name"
           />
         </div>
         <div class="space-y-2">
@@ -261,7 +396,7 @@
             <label
               class="flex items-center gap-2 text-sm font-medium text-neutral"
               for="price"
-              >Price
+              >Price <span class="text-red-500">*</span>
             </label>
             <input
               class="flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] outline-none md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
@@ -269,7 +404,8 @@
               step="0.01"
               placeholder="0.00"
               type="number"
-              value=""
+              data-validation="required"
+              name="product_price"
             />
           </div>
           <div class="space-y-2">
@@ -282,6 +418,40 @@
               class="flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] outline-none md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
               id="stock"
               placeholder="0"
+              required=""
+              type="number"
+              value=""
+              data-validation="required"
+              name="product_stock"
+            />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label
+              class="flex items-center gap-2 text-sm font-medium text-neutral"
+              for="discountPercentage"
+              >DiscountPercentage
+            </label>
+            <input
+              class="flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] outline-none md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
+              id="discountPercentage"
+              placeholder="0"
+              type="number"
+              value=""
+            />
+          </div>
+          <div class="space-y-2">
+            <label
+              class="flex items-center gap-2 text-sm font-medium text-neutral"
+              for="rating"
+              >Rating
+            </label>
+            <input
+              class="flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] outline-none md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
+              id="rating"
+              step="0.1"
+              placeholder="0.1"
               required=""
               type="number"
               value=""
@@ -321,15 +491,16 @@
             >Product Images</label
           >
           <div class="space-y-2">
-            <div class="flex gap-2">
+            <div id="containerImages" class="flex flex-col gap-2">
               <input
                 id="url1"
-                class="h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
+                class="h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary url"
                 placeholder="Image URL 1"
                 value=""
               />
             </div>
             <button
+              id="addImages"
               class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all border shadow-xs hover:bg-primary hover:text-base hover:border-transparent h-9 px-4 py-2 w-full bg-transparent text-neutral border-secondary"
             >
               <span class="text-2xl mr-2 mb-1.5 font-normal">+</span>
@@ -616,11 +787,13 @@
 
     <dialog
       id="dialogWishlist"
-      class="bg-background fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg sm:max-w-lg max-w-4xl max-h-[80vh] overflow-y-auto"
+      class="bg-background fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg sm:max-w-lg  max-h-[80vh] overflow-y-auto  "
       style="pointer-events: auto"
     >
       <div class="flex flex-col gap-2 text-center sm:text-left">
-        <h2 class="text-lg leading-none font-semibold">Wishlist (1 items)</h2>
+        <h2 class="text-lg leading-none font-semibold">
+          Wishlist (<span id="productsWishlistCount">0</span> items)
+        </h2>
       </div>
       <div class="mb-4">
         <div class="relative">
@@ -759,46 +932,242 @@
       </div>
     </dialog>
 
+    <dialog
+      id="DialogEditeProduct"
+      class="scrollbar bg-base fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg border-transparent sm:max-w-lg max-w-4xl max-h-[80vh]"
+    >
+      <div class="flex flex-col gap-2 text-center sm:text-left">
+        <h2 class="text-lg leading-none font-semibold text-neutral">
+          Edit Product
+        </h2>
+      </div>
+      <div class="space-y-6">
+        <div class="space-y-2">
+          <label
+            class="flex items-center gap-2 text-sm font-medium text-neutral"
+            for="titleEdite"
+            >Product Name <span class="text-red-500">*</span>
+          </label>
+          <input
+            class="flex h-9 w-full min-w-0 rounded-md border border-secondary bg-base px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none"
+            id="titleEdite"
+            placeholder="Enter product name"
+            data-validation="required"
+            name="product_name"
+          />
+        </div>
+        <div class="space-y-2">
+          <label
+            class="flex items-center gap-2 text-sm font-medium text-neutral"
+            for="descriptionEdite"
+            >Description</label
+          ><textarea
+            class="flex min-h-16 w-full rounded-md border border-secondary bg-transparent px-3 py-2 shadow-xs transition-[color,box-shadow] focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none md:text-sm"
+            id="descriptionEdite"
+            placeholder="Enter product description"
+          ></textarea>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label
+              class="flex items-center gap-2 text-sm font-medium text-neutral"
+              for="priceEdite"
+              >Price <span class="text-red-500">*</span>
+            </label>
+            <input
+              class="flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] outline-none md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
+              id="priceEdite"
+              step="0.01"
+              placeholder="0.00"
+              type="number"
+              data-validation="required"
+              name="product_price"
+            />
+          </div>
+          <div class="space-y-2">
+            <label
+              class="flex items-center gap-2 text-sm font-medium text-neutral"
+              for="stockEdite"
+              >Stock <span class="text-red-500">*</span>
+            </label>
+            <input
+              class="flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] outline-none md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
+              id="stockEdite"
+              placeholder="0"
+              required=""
+              type="number"
+              data-validation="required"
+              name="product_stock"
+            />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label
+              class="flex items-center gap-2 text-sm font-medium text-neutral"
+              for="discountPercentageEdite"
+              >DiscountPercentage
+            </label>
+            <input
+              class="flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] outline-none md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
+              id="discountPercentageEdite"
+              step="0.01"
+              placeholder="0.00"
+              type="number"
+              value=""
+            />
+          </div>
+          <div class="space-y-2">
+            <label
+              class="flex items-center gap-2 text-sm font-medium text-neutral"
+              for="ratingEdite"
+              >Rating
+            </label>
+            <input
+              class="flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] outline-none md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
+              id="ratingEdite"
+              placeholder="0"
+              required=""
+              type="number"
+              value=""
+            />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label
+              class="flex items-center gap-2 text-sm font-medium text-neutral"
+              for="categoryEdite"
+              >Category</label
+            ><input
+              class="h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
+              id="categoryEdite"
+              placeholder="e.g., electronics, clothing"
+              value=""
+            />
+          </div>
+          <div class="space-y-2">
+            <label
+              class="flex items-center gap-2 text-sm font-medium text-neutral"
+              for="brandEdite"
+              >Brand</label
+            ><input
+              class="h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
+              id="brandEdite"
+              placeholder="Brand name"
+              value=""
+            />
+          </div>
+        </div>
+        <div class="space-y-2">
+          <label
+            class="flex items-center gap-2 text-sm font-medium text-neutral"
+            for="url1Edite"
+            >Product Images</label
+          >
+          <div class="space-y-2">
+            <div class="flex gap-2">
+              <input
+                id="url1Edite"
+                class="h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
+                placeholder="Image URL 1"
+                value=""
+              />
+            </div>
+            <button
+              class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all border shadow-xs hover:bg-primary hover:text-base hover:border-transparent h-9 px-4 py-2 w-full bg-transparent text-neutral border-secondary"
+            >
+              <span class="text-2xl mr-2 mb-1.5 font-normal">+</span>
+              Add Image URL
+            </button>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <label
+            class="flex items-center gap-2 text-sm font-medium text-neutral"
+            for="tagsdetails"
+            >Tags</label
+          ><textarea
+            class="flex min-h-16 w-full rounded-md border bg-transparent px-3 py-2 shadow-xs transition-[color,box-shadow] focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none md:text-sm border-secondary"
+            id="tagsdetails"
+            placeholder="Enter tags separated by commas"
+            style="height: 72px"
+          ></textarea>
+        </div>
+        <div class="flex gap-4 pt-4">
+          <button
+            id="closeDialogEdite"
+            class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium border shadow-xs hover:bg-primary hover:text-white hover:border-transparent h-9 px-4 py-2 flex-1 transition-all bg-transparent text-neutral border-secondary"
+          >
+            Cancel</button
+          ><button
+            id="updateProduct"
+            class="rounded-md text-sm font-medium bg-neutral text-white shadow-xs hover:bg-slate-900 h-9 px-4 py-2 flex-1"
+          >
+            Update Product
+          </button>
+        </div>
+      </div>
+      <button
+        id="CloseDialogEditeProduct"
+        type="button"
+        class="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 size-3"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-x"
+        >
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+      </button>
+    </dialog>
 
     <footer class="py-20 bg-slate-900 text-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-6">
+      <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
         <div
           class="flex flex-col md:flex-row justify-between items-start gap-10"
         >
-          <div class="flex flex-col justify-center items-center gap-5 max-w-xs">
+          <div class="flex flex-col gap-5">
             <h3>Hussam's Store</h3>
             <p class="!text-gray-600">
+              Your one-stop destination for amazing products at unbeatable
+              prices.<br />
+              Your one-stop destination for amazing products at unbeatable
+              prices.<br />
               Your one-stop destination for amazing products at unbeatable
               prices.
             </p>
           </div>
-          <div class="flex flex-col justify-center items-center gap-5 max-w-xs">
+          <div class="flex flex-col gap-5 max-w-xs">
             <h3>Quick Links</h3>
-            <ul
-              class="flex flex-col justify-center items-center gap-5 text-gray-600 font-meduim"
-            >
+            <ul class="flex flex-col gap-5 text-gray-600 font-meduim">
               <li><a href="#">Home</a></li>
               <li><a href="#">Products</a></li>
               <li><a href="#">Categores</a></li>
               <li><a href="#">Contact</a></li>
             </ul>
           </div>
-          <div class="flex flex-col justify-center items-center gap-5 max-w-xs">
+          <div class="flex flex-col gap-5 max-w-xs">
             <h3>Customer Service</h3>
-            <ul
-              class="flex flex-col justify-center items-center gap-5 text-gray-600 font-meduim"
-            >
+            <ul class="flex flex-col gap-5 text-gray-600 font-meduim">
               <li><a href="#">Contact Us</a></li>
               <li><a href="#">FAQ</a></li>
               <li><a href="#">Shipping Info</a></li>
               <li><a href="#">Returns</a></li>
             </ul>
           </div>
-          <div class="flex flex-col justify-center items-center gap-5 max-w-xs">
+          <div class="flex flex-col gap-5 max-w-xs">
             <h3>Follow Us</h3>
-            <ul
-              class="flex flex-col justify-center items-center gap-5 text-gray-600 font-meduim"
-            >
+            <ul class="flex flex-col gap-5 text-gray-600 font-meduim">
               <li><a href="#">Facebook</a></li>
               <li><a href="#">Twitter</a></li>
               <li><a href="#">Instagram </a></li>
