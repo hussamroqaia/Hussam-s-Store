@@ -237,6 +237,50 @@ function detailsEdite(i) {
   document.getElementById("detailsStock").classList.remove("!bg-red-500");
   document.getElementById("detailsStock").classList.remove("!text-white");
   document.getElementById("counterFoot").classList.remove("!hidden");
+  document.getElementById("conDetailsImg").innerHTML = `
+  <img
+              id="detailsImg1"
+              alt=""
+              class="imgDet w-18 h-18 object-cover rounded cursor-pointer ring-2 ring-primary mt-1 ml-1 hover:ring-primary transition"
+              src=""
+            />
+  `
+  document.getElementById("detailsImg1").addEventListener("click", function () {
+    let wholeImages = document.querySelectorAll(".imgDet")
+    for (let index = 0; index < wholeImages.length; index++) {
+      wholeImages[index].classList.remove("!ring-primary")
+      wholeImages[index].classList.remove("ring-2")
+      wholeImages[index].classList.add("ring-2")
+    wholeImages[index].classList.add("ring-white/30")
+      
+    }
+    document.getElementById("detailsImg1").classList.add("!ring-primary")
+    document.getElementById("detailsImg1").classList.add("ring-2")
+  let src1 = document.getElementById("detailsImg1").getAttribute("src");
+  document.getElementById("detailsImg").setAttribute("src", `${src1}`);
+});
+  for (let index = 1; index < products[i].images.length; index++) {
+    let img = document.createElement("img")
+    img.setAttribute("id",`detailsImg${index+1}`)
+    img.setAttribute("alt","")
+    img.setAttribute("src",`${products[i].images[index]}`)
+    img.setAttribute("class","imgDet w-18 h-18 object-cover rounded cursor-pointer ring-2 ring-white/30 hover:ring-primary transition mt-1 ml-1")
+    document.getElementById("conDetailsImg").append(img)
+    document.getElementById(`detailsImg${index+1}`).addEventListener("click", function () {
+      let wholeImages = document.querySelectorAll(".imgDet")
+    for (let index = 0; index < wholeImages.length; index++) {
+      wholeImages[index].classList.remove("!ring-primary")
+      wholeImages[index].classList.remove("ring-2")
+      wholeImages[index].classList.add("ring-2")
+    wholeImages[index].classList.add("ring-white/30")
+    }
+    document.getElementById(`detailsImg${index+1}`).classList.add("!ring-primary")
+    document.getElementById(`detailsImg${index+1}`).classList.add("ring-2")
+  let src2 = document.getElementById(`detailsImg${index+1}`).getAttribute("src");
+  document.getElementById("detailsImg").setAttribute("src", `${src2}`);
+});
+
+  }
   document
     .getElementById("detailsImg")
     .setAttribute("alt", `${products[i].title}`);
@@ -246,12 +290,12 @@ function detailsEdite(i) {
   document
     .getElementById("detailsImg1")
     .setAttribute("src", `${products[i].images[0]}`);
-  document
-    .getElementById("detailsImg2")
-    .setAttribute("src", `${products[i].images[1]}`);
-  document
-    .getElementById("detailsImg3")
-    .setAttribute("src", `${products[i].images[2]}`);
+  // document
+  //   .getElementById("detailsImg2")
+  //   .setAttribute("src", `${products[i].images[1]}`);
+  // document
+  //   .getElementById("detailsImg3")
+  //   .setAttribute("src", `${products[i].images[2]}`);
   document.getElementById("detailsTitle").innerHTML = `${products[i].title}`;
   document.getElementById(
     "detailsDescription"
@@ -262,9 +306,9 @@ function detailsEdite(i) {
   document.getElementById(
     "detailsPriceBeforDiscount"
   ).innerHTML = `$${products[i].price}`;
-  document.getElementById("detailsRating").innerHTML = `${products[
+  document.getElementById("detailsRating").innerHTML = `(${products[
     i
-  ].rating.toFixed(1)}`;
+  ].rating.toFixed(1)})`;
   document.getElementById(
     "detailsBrand"
   ).innerHTML = `Brand: ${products[i].brand}`;
@@ -346,18 +390,8 @@ document
     }
   });
 
-document.getElementById("detailsImg1").addEventListener("click", function () {
-  let src1 = document.getElementById("detailsImg1").getAttribute("src");
-  document.getElementById("detailsImg").setAttribute("src", `${src1}`);
-});
-document.getElementById("detailsImg2").addEventListener("click", function () {
-  let src2 = document.getElementById("detailsImg2").getAttribute("src");
-  document.getElementById("detailsImg").setAttribute("src", `${src2}`);
-});
-document.getElementById("detailsImg3").addEventListener("click", function () {
-  let src3 = document.getElementById("detailsImg3").getAttribute("src");
-  document.getElementById("detailsImg").setAttribute("src", `${src3}`);
-});
+
+
 
 detailsAdd.addEventListener("click", function () {
   let i = Number(dialogDetails.dataset.productIndex || 0);
