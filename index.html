@@ -787,7 +787,7 @@
 
     <dialog
       id="dialogWishlist"
-      class="bg-background fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg sm:max-w-lg  max-h-[80vh] overflow-y-auto  "
+      class="fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg sm:max-w-lg  max-h-[80vh] overflow-y-auto bg-base "
       style="pointer-events: auto"
     >
       <div class="flex flex-col gap-2 text-center sm:text-left">
@@ -861,12 +861,15 @@
         </svg>
         <p class="text-gray-500">Your wishlist is empty</p>
       </div>
-      <div id="productCardWishList" class="flex flex-col gap-4"></div>
+      <div id="productCardWishList" class="flex flex-col gap-4">
+        
+      </div>
+      
     </dialog>
 
     <dialog
       id="dialogCart"
-      class="fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg sm:max-w-lg max-w-4xl max-h-[80vh] overflow-y-auto"
+      class="bg-background fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg w-[95vw] sm:max-w-lg  max-h-[80vh] overflow-y-auto p-2"
     >
       <div class="flex flex-col gap-2 text-center sm:text-left">
         <h2 class="text-lg leading-none font-semibold">
@@ -1183,6 +1186,80 @@
         </div>
       </div>
     </footer>
+
+     <div
+  class="group grid grid-cols-[auto,1fr] md:grid-cols-[96px,1fr,auto,auto] items-start gap-4 p-4
+         rounded-xl border bg-[rgb(92,99,120)] text-white shadow-sm
+         transition-all hover:shadow-md mb-4"
+>
+  
+  <div class="shrink-0">
+    <img
+      src="${p.images[0]}"
+      alt="${p.title}"
+      class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover ring-1 ring-black/10"
+    />
+  </div>
+
+
+  <div class="min-w-0 flex flex-col gap-1">
+    <h4 class="font-semibold text-base md:text-lg leading-snug line-clamp-1">
+      ${p.title}
+    </h4>
+    <p class="text-sm text-white/80">
+      ${fSToN(unitPrice(p))} each
+    </p>
+  </div>
+
+ 
+  <div
+    class="flex items-center gap-2 justify-start md:justify-end
+           order-3 md:order-none col-span-2 md:col-span-1"
+  >
+    <button
+      id="bd${p.id}"
+      class="inline-flex items-center justify-center h-10 w-10 rounded-md
+             border border-white/30 bg-white/10 hover:bg-white/20 transition
+             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+      aria-label="Decrease quantity"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"></path>
+      </svg>
+    </button>
+
+    <span id="count${p.id}" class="min-w-8 text-center select-none">
+      ${p.numberOfProducts}
+    </span>
+
+    <button
+      id="bi${p.id}"
+      class="inline-flex items-center justify-center h-10 w-10 rounded-md
+             border border-white/30 bg-white/10 hover:bg-white/20 transition
+             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+      aria-label="Increase quantity"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"></path>
+        <path d="M12 5v14"></path>
+      </svg>
+    </button>
+  </div>
+
+
+  <div
+    class="text-right font-bold self-center md:self-start
+           order-4 md:order-none col-span-2 md:col-span-1"
+  >
+    <p id="total${p.id}">
+      ${fSToN(Number(p.numberOfProducts) * unitPrice(p))}
+    </p>
+  </div>
+</div>
 
     <script src="./main.js"></script>
   </body>

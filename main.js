@@ -47,42 +47,87 @@ function renderCartFromState() {
     const row = document.createElement("div");
     row.setAttribute("id", `c${p.id}`);
     row.innerHTML = `
-      <div class="flex items-center gap-4 p-4 border rounded-lg mb-4">
-        <img alt="${p.title}" class="w-16 h-16 object-cover rounded" src="${
-      p.thumbnail
-    }" />
-        <div class="flex-1">
-          <h4 class="font-medium">${p.title}</h4>
-          <p class="text-sm text-gray-600">${fSToN(unitPrice(p))} each</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <button id="bd${
-            p.id
-          }" class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all border size-9">
-            <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-minus h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
-          </button>
-          <span id="count${p.id}" class="w-8 text-center">${
-      p.numberOfProducts
-    }</span>
-          <button id="bi${
-            p.id
-          }" class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all border size-9">
-            <svg xmlns="http://www.w3.org/2000/svg" class="lucide lucide-plus h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-          </button>
-        </div>
-        <div class="text-right">
-          <p id="total${p.id}" class="font-medium">${fSToN(
-      Number(p.numberOfProducts) * unitPrice(p)
-    )}</p>
-        </div>
-      </div>
+      <div
+  class="group grid grid-cols-[auto,1fr] md:grid-cols-[96px,1fr,auto,auto] items-start gap-4 p-4
+         rounded-xl border bg-[rgb(92,99,120)] text-white shadow-sm
+         transition-all hover:shadow-md mb-4"
+>
+  
+  <div class="shrink-0">
+    <img
+      src="${p.images[0]}"
+      alt="${p.title}"
+      class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover ring-1 ring-black/10"
+    />
+  </div>
+
+
+  <div class="min-w-0 flex flex-col gap-1">
+    <h4 class="font-semibold text-base md:text-lg leading-snug line-clamp-1">
+      ${p.title}
+    </h4>
+    <p class="text-sm text-white/80">
+      ${fSToN(unitPrice(p))} each
+    </p>
+  </div>
+
+ 
+  <div
+    class="flex items-center gap-2 justify-start md:justify-end
+           order-3 md:order-none col-span-2 md:col-span-1"
+  >
+    <button
+      id="bd${p.id}"
+      class="inline-flex items-center justify-center h-10 w-10 rounded-md
+             border border-white/30 bg-white/10 hover:bg-white/20 transition
+             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"></path>
+      </svg>
+    </button>
+
+    <span id="count${p.id}" class="min-w-8 text-center select-none">
+      ${p.numberOfProducts}
+    </span>
+
+    <button
+      id="bi${p.id}"
+      class="inline-flex items-center justify-center h-10 w-10 rounded-md
+             border border-white/30 bg-white/10 hover:bg-white/20 transition
+             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"></path>
+        <path d="M12 5v14"></path>
+      </svg>
+    </button>
+  </div>
+
+
+  <div
+    class="text-right font-bold self-center md:self-start
+           order-4 md:order-none col-span-2 md:col-span-1"
+  >
+    <p id="total${p.id}">
+      ${fSToN(Number(p.numberOfProducts) * unitPrice(p))}
+    </p>
+  </div>
+</div>
+
     `;
     list.append(row);
 
     runningTotal += Number(p.numberOfProducts) * unitPrice(p);
     document.getElementById("finalTotal").innerHTML = fSToN(runningTotal);
 
-    // minus
+   
     document.getElementById(`bd${p.id}`).addEventListener("click", function () {
       const idx = productsCart.findIndex((x) => x.id === p.id);
       const newQty = Number(productsCart[idx].numberOfProducts || 0) - 1;
@@ -102,7 +147,7 @@ function renderCartFromState() {
       updateCountersAndTotals();
     });
 
-    // plus
+    
     document.getElementById(`bi${p.id}`).addEventListener("click", function () {
       const idx = productsCart.findIndex((x) => x.id === p.id);
       let newQty = Number(productsCart[idx].numberOfProducts || 0) + 1;
@@ -294,7 +339,7 @@ document
         close: true,
         selector: host,
         style: {
-          zIndex: 9999, // or "9999"
+          zIndex: 9999,
         },
         className: "toast-z-top",
       }).showToast();
@@ -358,66 +403,80 @@ detailsAdd.addEventListener("click", function () {
     let productCart = document.createElement("div");
     productCart.setAttribute("id", `c${p.id}`);
     productCart.innerHTML = `
-    <div class="flex items-center gap-4 p-4 border rounded-lg mb-4">
-          <img
-            alt="${p.title}"
-            class="w-16 h-16 object-cover rounded"
-            src="${p.images[0]}"
-          />
-          <div class="flex-1">
-            <h4 class="font-medium">${p.title}</h4>
-            <p class="text-sm text-gray-600">$${unitPrice(fSToN(p))} each</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <button
-              id="bd${p.id}"
-              class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all border size-9"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-minus h-4 w-4"
-              >
-                <path d="M5 12h14"></path>
-              </svg></button
-            ><span id="count${p.id}" class="w-8 text-center">${
-      p.numberOfProducts
-    }</span
-            ><button
-              id="bi${p.id}"
+     <div
+  class="group grid grid-cols-[auto,1fr] md:grid-cols-[96px,1fr,auto,auto] items-start gap-4 p-4
+         rounded-xl border bg-[rgb(92,99,120)] text-white shadow-sm
+         transition-all hover:shadow-md mb-4"
+>
+  
+  <div class="shrink-0">
+    <img
+      src="${p.images[0]}"
+      alt="${p.title}"
+      class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover ring-1 ring-black/10"
+    />
+  </div>
 
-              class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all border size-9"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-plus h-4 w-4"
-              >
-                <path d="M5 12h14"></path>
-                <path d="M12 5v14"></path>
-              </svg>
-            </button>
-          </div>
-          <div class="text-right">
-         <p id="total${p.id}" class="font-medium">
-  ${fSToN(Number(p.numberOfProducts) * unitPrice(p))}
-</p>
-    </div>
-        </div>
+
+  <div class="min-w-0 flex flex-col gap-1">
+    <h4 class="font-semibold text-base md:text-lg leading-snug line-clamp-1">
+      ${p.title}
+    </h4>
+    <p class="text-sm text-white/80">
+      ${fSToN(unitPrice(p))} each
+    </p>
+  </div>
+
+ 
+  <div
+    class="flex items-center gap-2 justify-start md:justify-end
+           order-3 md:order-none col-span-2 md:col-span-1"
+  >
+    <button
+      id="bd${p.id}"
+      class="inline-flex items-center justify-center h-10 w-10 rounded-md
+             border border-white/30 bg-white/10 hover:bg-white/20 transition
+             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"></path>
+      </svg>
+    </button>
+
+    <span id="count${p.id}" class="min-w-8 text-center select-none">
+      ${p.numberOfProducts}
+    </span>
+
+    <button
+      id="bi${p.id}"
+      class="inline-flex items-center justify-center h-10 w-10 rounded-md
+             border border-white/30 bg-white/10 hover:bg-white/20 transition
+             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 12h14"></path>
+        <path d="M12 5v14"></path>
+      </svg>
+    </button>
+  </div>
+
+
+  <div
+    class="text-right font-bold self-center md:self-start
+           order-4 md:order-none col-span-2 md:col-span-1"
+  >
+    <p id="total${p.id}">
+      ${fSToN(Number(p.numberOfProducts) * unitPrice(p))}
+    </p>
+  </div>
+</div>
+
     `;
     runningTotal += Number(p.numberOfProducts) * unitPrice(p);
     document.getElementById("finalTotal").innerHTML = fSToN(runningTotal);
@@ -448,8 +507,8 @@ detailsAdd.addEventListener("click", function () {
         Toastify({
           text: "You’ve reached the stock limit for this product.",
           duration: 2500,
-          gravity: "top", // "top" or "bottom"
-          position: "right", // "left", "center" or "right"
+          gravity: "top", 
+          position: "right",
           close: true,
         }).showToast();
       }
@@ -809,54 +868,68 @@ function printWish(productsWishList) {
     wishListCard.setAttribute("id", `a${product.id}`);
     wishListCard.innerHTML = `
             
-              <div class="flex items-center gap-4 p-4 border rounded-lg">
-                <img
-                  alt="${product.title}"
-                  class="w-16 h-16 object-cover rounded"
-                  src="${product.thumbnail}"
-                />
-                <div class="flex-1">
-                  <h4 class="font-medium">${product.title}</h4>
-                  <p class="text-sm text-gray-600 line-clamp-2">
-                    ${product.description}
-                  </p>
-                  <p class="text-lg font-bold text-purple-600">$${(
-                    product.price -
-                    (product.price * Math.round(product.discountPercentage)) /
-                      100
-                  ).toFixed(2)}</p>
-                </div>
-                <div class="flex gap-2">
-                  <button
-                  id="close${product.id}"
-                    class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all  border shadow-xs h-9 px-4 py-2"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      class="lucide lucide-x h-4 w-4"
-                    >
-                      <path d="M18 6 6 18"></path>
-                      <path d="m6 6 12 12"></path>
-                    </svg>
-                    </button>
                   
-                  <button
-                  id="view${product.id}"
-                    class="rounded-md text-sm font-medium transition-all bg-neutral text-base shadow-xs hover:bg-slate-900 h-9 px-4 py-2 has-[&gt;svg]:px-3"
-                  >
-                    View
-                  </button>
-                </div>
-              </div>
-            
+              <div
+  class="grid grid-cols-[auto,1fr] md:grid-cols-[96px,1fr,auto] items-start gap-4 p-4
+         rounded-xl border bg-[rgb(92,99,120)] shadow-sm
+         transition-all hover:shadow-md"
+>
+ 
+  <div class="shrink-0">
+    <img
+      src="${product.thumbnail}"
+      alt="${product.title}"
+      class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover ring-1 ring-black/5 dark:ring-white/10"
+    />
+  </div>
+
+  
+  <div class="min-w-0 flex flex-col gap-1">
+    <h4 class="font-semibold text-base md:text-lg leading-snug line-clamp-1">
+      ${product.title}
+    </h4>
+
+    <p class="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
+      ${product.description}
+    </p>
+
+    <p class="mt-1 md:mt-2 text-lg md:text-xl font-bold text-primary">
+     ${fSToN(unitPrice(product))}
+    </p>
+  </div>
+
+  
+  <div class="flex md:flex-col gap-2 md:gap-3 self-stretch justify-end md:justify-start">
+   
+    <button
+      id="close${product.id}"
+      class="inline-flex items-center justify-center h-10 px-3 rounded-md
+              shadow-xs text-sm font-medium bg-neutral hover:bg-slate-900 text-white
+             outline-none"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
+           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6 6 18"></path>
+        <path d="m6 6 12 12"></path>
+      </svg>
+      <span class="sr-only">Remove</span>
+    </button>
+
+  
+    <button
+      id="view${product.id}"
+      class="inline-flex items-center justify-center h-10 px-4 rounded-md
+             text-sm font-medium  text-white bg-neutral hover:bg-slate-900
+             
+             shadow-xs transition
+             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+    >
+      View
+    </button>
+  </div>
+</div>
+
             `;
     document.getElementById("productCardWishList").append(wishListCard);
   });
@@ -912,7 +985,7 @@ function hydrateWishlistHearts() {
   heartEl.classList.toggle("!fill-red-500", count > 0);
   heartEl.classList.toggle("!text-red-500", count > 0);
 
-  // color individual product hearts that are already in wishlist
+
   document.querySelectorAll(".like").forEach((btn) => {
     const id = Number(btn.id);
     if (productsWishList.some((p) => p.id === id)) {
