@@ -1,3 +1,6 @@
+let products = [];
+let productsCart = [];
+let productsWishList = [];
 let localProducts = JSON.parse(localStorage.getItem("products"));
 let localProductsCart = JSON.parse(localStorage.getItem("productsCart"));
 let localProductsWish = JSON.parse(localStorage.getItem("productsWishList"));
@@ -17,40 +20,43 @@ if (Array.isArray(localProductsWish)) {
   productsWishList = [];
 }
 var dialogAddProduct = document.getElementById("DialogAddProduct");
-var openBtn = document.getElementById("openDialog");
-var closeBtn = document.getElementById("closeDialog");
-var closeBtn2 = document.getElementById("closeDialog2");
-openBtn.addEventListener("click", () => {
+var openBtnAddProduct = document.getElementById("openDialogAddProduct");
+var closeBtnAddProduct1 = document.getElementById("closeDialogAddProduct1");
+var closeBtnAddProduct2 = document.getElementById("closeDialogAddProduct2");
+openBtnAddProduct.addEventListener("click", () => {
   dialogAddProduct.showModal();
   document.querySelectorAll('[name="error-msg"]').forEach(function (msg) {
     msg.remove();
   });
 });
-closeBtn.addEventListener("click", () => dialogAddProduct.close());
-closeBtn2.addEventListener("click", () => dialogAddProduct.close());
+closeBtnAddProduct1.addEventListener("click", () => dialogAddProduct.close());
+closeBtnAddProduct2.addEventListener("click", () => dialogAddProduct.close());
 let productQuantity = document.getElementById("productQuantity");
 let detailsAdd = document.getElementById("detailsAdd");
 let dialogDetails = document.getElementById("dialogDetails");
+function saveProducts() {
+  localStorage.setItem("products", JSON.stringify(products));
+}
 function saveCart() {
   localStorage.setItem("productsCart", JSON.stringify(productsCart));
 }
 function saveWish() {
   localStorage.setItem("productsWishList", JSON.stringify(productsWishList));
 }
-function renderCartFromState() {
-  const list = document.getElementById("aa");
-  list.innerHTML = "";
+function printCart() {
+  let cartContainer = document.getElementById("productsCartContainer");
+  cartContainer.innerHTML = "";
   document.getElementById("finalTotal").innerHTML = fSToN(0);
   let runningTotal = 0;
 
   productsCart.forEach((p) => {
-    const row = document.createElement("div");
-    row.setAttribute("id", `c${p.id}`);
-    row.innerHTML = `
+    let prodCart = document.createElement("div");
+    prodCart.setAttribute("id", `c${p.id}`);
+    prodCart.innerHTML = `
       <div
-  class="group grid grid-cols-[auto,1fr] md:grid-cols-[96px,1fr,auto,auto] items-start gap-4 p-4
+  class="flex flex-col md:flex-row items-center gap-4 p-4
          rounded-xl border bg-[rgb(92,99,120)] text-white shadow-sm
-         transition-all hover:shadow-md mb-4"
+         transition-all hover:shadow-md mb-4 max-w-xs md:max-w-xl"
 >
   
   <div class="shrink-0">
@@ -112,7 +118,7 @@ function renderCartFromState() {
 
 
   <div
-    class="text-right font-bold self-center md:self-start
+    class="text-right font-bold
            order-4 md:order-none col-span-2 md:col-span-1"
   >
     <p id="total${p.id}">
@@ -122,15 +128,14 @@ function renderCartFromState() {
 </div>
 
     `;
-    list.append(row);
+    cartContainer.append(prodCart);
 
     runningTotal += Number(p.numberOfProducts) * unitPrice(p);
     document.getElementById("finalTotal").innerHTML = fSToN(runningTotal);
 
-   
     document.getElementById(`bd${p.id}`).addEventListener("click", function () {
-      const idx = productsCart.findIndex((x) => x.id === p.id);
-      const newQty = Number(productsCart[idx].numberOfProducts || 0) - 1;
+      let idx = productsCart.findIndex((x) => x.id === p.id);
+      let newQty = Number(productsCart[idx].numberOfProducts || 0) - 1;
 
       if (newQty <= 0) {
         productsCart.splice(idx, 1);
@@ -147,9 +152,8 @@ function renderCartFromState() {
       updateCountersAndTotals();
     });
 
-    
     document.getElementById(`bi${p.id}`).addEventListener("click", function () {
-      const idx = productsCart.findIndex((x) => x.id === p.id);
+      let idx = productsCart.findIndex((x) => x.id === p.id);
       let newQty = Number(productsCart[idx].numberOfProducts || 0) + 1;
 
       if (newQty > Number(p.stock)) {
@@ -176,17 +180,14 @@ function renderCartFromState() {
 }
 
 async function getProducts() {
-  const response = await fetch("https://dummyjson.com/products");
-  const data = await response.json();
+  let response = await fetch("https://dummyjson.com/products");
+  let data = await response.json();
 
   if (products.length == 0) {
-    products = data.products.concat(products);
+    products = data.products;
   }
 
   print(products);
-  for (let index = 0; index < products.length; index++) {
-    console.log(products[index].category);
-  }
 }
 
 getProducts();
@@ -206,7 +207,7 @@ function updateCountersAndTotals() {
   let basketCounter = document.getElementById("basketCounter");
   let totalProducts = document.getElementById("totalProducts");
   let totalQty = productsCart.reduce(
-    (s, p) => s + Number(p.numberOfProducts || 0),
+    (acu, p) => acu + Number(p.numberOfProducts || 0),
     0
   );
   totalProducts.innerHTML = String(totalQty);
@@ -225,7 +226,7 @@ function updateCountersAndTotals() {
     .classList.toggle("hidden", totalQty != 0);
 
   let sum = productsCart.reduce(
-    (s, p) => s + Number(p.numberOfProducts || 0) * unitPrice(p),
+    (acu, p) => acu + Number(p.numberOfProducts || 0) * unitPrice(p),
     0
   );
   document.getElementById("finalTotal").innerHTML = fSToN(sum);
@@ -244,42 +245,51 @@ function detailsEdite(i) {
               class="imgDet w-18 h-18 object-cover rounded cursor-pointer ring-2 ring-primary mt-1 ml-1 hover:ring-primary transition"
               src=""
             />
-  `
+  `;
   document.getElementById("detailsImg1").addEventListener("click", function () {
-    let wholeImages = document.querySelectorAll(".imgDet")
+    let wholeImages = document.querySelectorAll(".imgDet");
     for (let index = 0; index < wholeImages.length; index++) {
-      wholeImages[index].classList.remove("!ring-primary")
-      wholeImages[index].classList.remove("ring-2")
-      wholeImages[index].classList.add("ring-2")
-    wholeImages[index].classList.add("ring-white/30")
-      
+      wholeImages[index].classList.remove("!ring-primary");
+      wholeImages[index].classList.remove("ring-2");
+      wholeImages[index].classList.add("ring-2");
+      wholeImages[index].classList.add("ring-white/30");
     }
-    document.getElementById("detailsImg1").classList.add("!ring-primary")
-    document.getElementById("detailsImg1").classList.add("ring-2")
-  let src1 = document.getElementById("detailsImg1").getAttribute("src");
-  document.getElementById("detailsImg").setAttribute("src", `${src1}`);
-});
+    document.getElementById("detailsImg1").classList.add("!ring-primary");
+    document.getElementById("detailsImg1").classList.add("ring-2");
+    let src1 = document.getElementById("detailsImg1").getAttribute("src");
+    document.getElementById("detailsImg").setAttribute("src", `${src1}`);
+  });
   for (let index = 1; index < products[i].images.length; index++) {
-    let img = document.createElement("img")
-    img.setAttribute("id",`detailsImg${index+1}`)
-    img.setAttribute("alt","")
-    img.setAttribute("src",`${products[i].images[index]}`)
-    img.setAttribute("class","imgDet w-18 h-18 object-cover rounded cursor-pointer ring-2 ring-white/30 hover:ring-primary transition mt-1 ml-1")
-    document.getElementById("conDetailsImg").append(img)
-    document.getElementById(`detailsImg${index+1}`).addEventListener("click", function () {
-      let wholeImages = document.querySelectorAll(".imgDet")
-    for (let index = 0; index < wholeImages.length; index++) {
-      wholeImages[index].classList.remove("!ring-primary")
-      wholeImages[index].classList.remove("ring-2")
-      wholeImages[index].classList.add("ring-2")
-    wholeImages[index].classList.add("ring-white/30")
-    }
-    document.getElementById(`detailsImg${index+1}`).classList.add("!ring-primary")
-    document.getElementById(`detailsImg${index+1}`).classList.add("ring-2")
-  let src2 = document.getElementById(`detailsImg${index+1}`).getAttribute("src");
-  document.getElementById("detailsImg").setAttribute("src", `${src2}`);
-});
-
+    let img = document.createElement("img");
+    img.setAttribute("id", `detailsImg${index + 1}`);
+    img.setAttribute("alt", "");
+    img.setAttribute("src", `${products[i].images[index]}`);
+    img.setAttribute(
+      "class",
+      "imgDet w-18 h-18 object-cover rounded cursor-pointer ring-2 ring-white/30 hover:ring-primary transition mt-1 ml-1"
+    );
+    document.getElementById("conDetailsImg").append(img);
+    document
+      .getElementById(`detailsImg${index + 1}`)
+      .addEventListener("click", function () {
+        let wholeImages = document.querySelectorAll(".imgDet");
+        for (let index = 0; index < wholeImages.length; index++) {
+          wholeImages[index].classList.remove("!ring-primary");
+          wholeImages[index].classList.remove("ring-2");
+          wholeImages[index].classList.add("ring-2");
+          wholeImages[index].classList.add("ring-white/30");
+        }
+        document
+          .getElementById(`detailsImg${index + 1}`)
+          .classList.add("!ring-primary");
+        document
+          .getElementById(`detailsImg${index + 1}`)
+          .classList.add("ring-2");
+        let src2 = document
+          .getElementById(`detailsImg${index + 1}`)
+          .getAttribute("src");
+        document.getElementById("detailsImg").setAttribute("src", `${src2}`);
+      });
   }
   document
     .getElementById("detailsImg")
@@ -290,12 +300,7 @@ function detailsEdite(i) {
   document
     .getElementById("detailsImg1")
     .setAttribute("src", `${products[i].images[0]}`);
-  // document
-  //   .getElementById("detailsImg2")
-  //   .setAttribute("src", `${products[i].images[1]}`);
-  // document
-  //   .getElementById("detailsImg3")
-  //   .setAttribute("src", `${products[i].images[2]}`);
+ 
   document.getElementById("detailsTitle").innerHTML = `${products[i].title}`;
   document.getElementById(
     "detailsDescription"
@@ -374,7 +379,7 @@ document
         newQty * unitPrice(products[i])
       )}`;
     } else {
-      const host = dialogDetails?.open ? dialogDetails : document.body;
+      let host = dialogDetails?.open ? dialogDetails : document.body;
       Toastify({
         text: "You’ve reached the stock limit for this product.",
         duration: 2500,
@@ -389,9 +394,6 @@ document
       }).showToast();
     }
   });
-
-
-
 
 detailsAdd.addEventListener("click", function () {
   let i = Number(dialogDetails.dataset.productIndex || 0);
@@ -424,139 +426,12 @@ detailsAdd.addEventListener("click", function () {
   if (idx > -1) {
     productsCart[idx].numberOfProducts = inCart + toAdd;
   } else {
-    const copy = structuredClone(products[i]);
+    let copy = structuredClone(products[i]);
     copy.numberOfProducts = toAdd;
     productsCart.push(copy);
     saveCart();
   }
   updateCountersAndTotals();
-  document.getElementById("aa").innerHTML = "";
-  document.getElementById("finalTotal").innerHTML = fSToN(0);
-  let runningTotal = 0;
-  productsCart.forEach((p) => {
-    let productCart = document.createElement("div");
-    productCart.setAttribute("id", `c${p.id}`);
-    productCart.innerHTML = `
-     <div
-  class="group grid grid-cols-[auto,1fr] md:grid-cols-[96px,1fr,auto,auto] items-start gap-4 p-4
-         rounded-xl border bg-[rgb(92,99,120)] text-white shadow-sm
-         transition-all hover:shadow-md mb-4"
->
-  
-  <div class="shrink-0">
-    <img
-      src="${p.images[0]}"
-      alt="${p.title}"
-      class="w-20 h-20 md:w-24 md:h-24 rounded-lg object-cover ring-1 ring-black/10"
-    />
-  </div>
-
-
-  <div class="min-w-0 flex flex-col gap-1">
-    <h4 class="font-semibold text-base md:text-lg leading-snug line-clamp-1">
-      ${p.title}
-    </h4>
-    <p class="text-sm text-white/80">
-      ${fSToN(unitPrice(p))} each
-    </p>
-  </div>
-
- 
-  <div
-    class="flex items-center gap-2 justify-start md:justify-end
-           order-3 md:order-none col-span-2 md:col-span-1"
-  >
-    <button
-      id="bd${p.id}"
-      class="inline-flex items-center justify-center h-10 w-10 rounded-md
-             border border-white/30 bg-white/10 hover:bg-white/20 transition
-             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
-
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round">
-        <path d="M5 12h14"></path>
-      </svg>
-    </button>
-
-    <span id="count${p.id}" class="min-w-8 text-center select-none">
-      ${p.numberOfProducts}
-    </span>
-
-    <button
-      id="bi${p.id}"
-      class="inline-flex items-center justify-center h-10 w-10 rounded-md
-             border border-white/30 bg-white/10 hover:bg-white/20 transition
-             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
-
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round">
-        <path d="M5 12h14"></path>
-        <path d="M12 5v14"></path>
-      </svg>
-    </button>
-  </div>
-
-
-  <div
-    class="text-right font-bold self-center md:self-start
-           order-4 md:order-none col-span-2 md:col-span-1"
-  >
-    <p id="total${p.id}">
-      ${fSToN(Number(p.numberOfProducts) * unitPrice(p))}
-    </p>
-  </div>
-</div>
-
-    `;
-    runningTotal += Number(p.numberOfProducts) * unitPrice(p);
-    document.getElementById("finalTotal").innerHTML = fSToN(runningTotal);
-
-    document.getElementById("aa").append(productCart);
-    document.getElementById(`bd${p.id}`).addEventListener("click", function () {
-      const idx = productsCart.findIndex((x) => x.id === p.id);
-      const newQty = Number(productsCart[idx].numberOfProducts || 0) - 1;
-
-      if (newQty <= 0) {
-        productsCart.splice(idx, 1);
-        document.getElementById(`c${p.id}`).remove();
-      } else {
-        productsCart[idx].numberOfProducts = newQty;
-        document.getElementById(`count${p.id}`).innerHTML = String(newQty);
-        document.getElementById(`total${p.id}`).innerHTML = fSToN(
-          newQty * unitPrice(p)
-        );
-      }
-
-      updateCountersAndTotals();
-    });
-
-    document.getElementById(`bi${p.id}`).addEventListener("click", function () {
-      const idx = productsCart.findIndex((x) => x.id === p.id);
-      let newQty = Number(productsCart[idx].numberOfProducts || 0) + 1;
-      if (newQty > Number(p.stock)) {
-        Toastify({
-          text: "You’ve reached the stock limit for this product.",
-          duration: 2500,
-          gravity: "top", 
-          position: "right",
-          close: true,
-        }).showToast();
-      }
-      newQty = Math.min(newQty, Number(p.stock));
-
-      productsCart[idx].numberOfProducts = newQty;
-      document.getElementById(`count${p.id}`).innerHTML = String(newQty);
-      document.getElementById(`total${p.id}`).innerHTML = fSToN(
-        newQty * unitPrice(p)
-      );
-
-      updateCountersAndTotals();
-    });
-  });
   dialogDetails.close();
 });
 
@@ -567,7 +442,8 @@ function print(products) {
   products.forEach((product) => {
     cards.innerHTML += `
     <div
-            class="card bg-white max-w-3xs bg-card text-card-foreground gap-6 rounded-xl py-6  hover:shadow-xl transition-all border-0 shadow-md pt-0 h-[480px] flex flex-col opacity-100 translate-y-0 "
+    
+            class="card bg-white max-w-3xs bg-card text-card-foreground gap-2 rounded-xl py-6  hover:shadow-xl transition-all border-0 shadow-md pt-0  flex flex-col opacity-100 translate-y-0 "
             id="${product.id}"
             >
             <div
@@ -715,7 +591,7 @@ function print(products) {
                   >(${product.rating.toFixed(1)})</span
                 >
               </div>
-              <div class="flex items-center justify-between mt-auto flex-wrap">
+              <div class="flex items-center justify-between  flex-wrap">
                 <div>
                   <span class="text-2xl font-bold text-neutral">
                   ${fSToN(unitPrice(product))}
@@ -734,11 +610,11 @@ function print(products) {
             </div>
             <div
               
-              class="p-4 flex gap-2"
+              class="px-4 flex gap-2"
             >
               <button
                 id="o${product.id}"
-                class="view cursor-pointer inline-flex items-center justify-center   rounded-md text-sm font-medium transition-all  bg-neutral text-base shadow-xs hover:bg-slate-900 h-9 px-4 py-2  w-full"
+                class="view cursor-pointer inline-flex items-center justify-center   rounded-md text-sm font-medium transition-all  bg-neutral text-base shadow-xs hover:bg-slate-900 h-9 px-4 pb-2  w-full"
               >
                 View Details
               </button>
@@ -801,7 +677,7 @@ function print(products) {
       detailsEdite(i);
     });
     productsView2[i].addEventListener("click", function () {
-      const dialogDetails = document.getElementById("dialogDetails");
+      let dialogDetails = document.getElementById("dialogDetails");
 
       dialogDetails.showModal();
       detailsEdite(i);
@@ -811,8 +687,8 @@ function print(products) {
   let likes = document.querySelectorAll(".like");
   let edites = document.querySelectorAll(".edite");
   var DialogEditeProduct = document.getElementById("DialogEditeProduct");
-  const closeBtnEdite = document.getElementById("CloseDialogEditeProduct");
-  const closeBtnEdite1 = document.getElementById("closeDialogEdite");
+  let closeBtnEdite = document.getElementById("CloseDialogEditeProduct");
+  let closeBtnEdite1 = document.getElementById("closeDialogEdite");
   closeBtnEdite.addEventListener("click", () => DialogEditeProduct.close());
   closeBtnEdite1.addEventListener("click", () => DialogEditeProduct.close());
 
@@ -848,8 +724,8 @@ function print(products) {
         .querySelectorAll(".like")
         [i].getAttribute("id");
 
-      const pid = Number(productNumber);
-      const inWish = productsWishList.some((p) => p.id === pid);
+      let pid = Number(productNumber);
+      let inWish = productsWishList.some((p) => p.id === pid);
 
       if (inWish) {
         productsWishList = productsWishList.filter((p) => p.id !== pid);
@@ -880,13 +756,13 @@ function print(products) {
       document.getElementById("ratingEdite").value = products[i].rating;
     });
   }
-  hydrateWishlistHearts();
+  fillWishlistHearts();
 }
 
-renderCartFromState();
+printCart();
 printWish(productsWishList);
 updateCountersAndTotals();
-hydrateWishlistHearts();
+fillWishlistHearts();
 
 function printWish(productsWishList) {
   document.getElementById("productsWishlistCount").innerHTML = Number(
@@ -933,22 +809,9 @@ function printWish(productsWishList) {
   </div>
 
   
-  <div class="flex md:flex-col gap-2 md:gap-3 self-stretch justify-end md:justify-start">
+  <div class="flex  gap-2 md:gap-3 self-stretch justify-end ">
    
-    <button
-      id="close${product.id}"
-      class="inline-flex items-center justify-center h-10 px-3 rounded-md
-              shadow-xs text-sm font-medium bg-neutral hover:bg-slate-900 text-white
-             outline-none"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
-           viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 6 6 18"></path>
-        <path d="m6 6 12 12"></path>
-      </svg>
-      <span class="sr-only">Remove</span>
-    </button>
+    
 
   
     <button
@@ -960,6 +823,15 @@ function printWish(productsWishList) {
              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
     >
       View
+    </button>
+    <button
+      id="close${product.id}"
+      class="inline-flex items-center justify-center h-10 px-3 rounded-md
+              shadow-xs text-sm font-medium bg-neutral hover:bg-slate-900 text-white
+             outline-none"
+    >
+      Remove
+      
     </button>
   </div>
 </div>
@@ -978,9 +850,9 @@ function printWish(productsWishList) {
     document
       .getElementById(`close${productsWishList[i].id}`)
       .addEventListener("click", function () {
-        const id = Number(this.id.replace("close", ""));
+        let id = Number(this.id.replace("close", ""));
 
-        const cardEl = document.getElementById(`a${id}`);
+        let cardEl = document.getElementById(`a${id}`);
         if (cardEl) cardEl.remove();
         // productsWishList = productsWishList.filter((p) => p.id !== id);
         let index = productsWishList.indexOf(
@@ -990,10 +862,10 @@ function printWish(productsWishList) {
         printWish(productsWishList);
         saveWish();
 
-        const count = productsWishList.length;
-        const counterEl = document.getElementById("likesCounter");
-        const heartEl = document.getElementById("heart");
-        const emptyEl = document.getElementById("empty");
+        let count = productsWishList.length;
+        let counterEl = document.getElementById("likesCounter");
+        let heartEl = document.getElementById("heart");
+        let emptyEl = document.getElementById("empty");
 
         counterEl.innerHTML = String(count);
         counterEl.classList.toggle("hidden", count === 0);
@@ -1001,7 +873,7 @@ function printWish(productsWishList) {
         heartEl.classList.toggle("!text-red-500", count > 0);
         emptyEl.classList.toggle("hidden", count > 0);
 
-        const likeBtn = document.querySelector(`.like[id="${id}"]`);
+        let likeBtn = document.querySelector(`.like[id="${id}"]`);
         if (likeBtn) {
           likeBtn.children[0].classList.remove("!fill-red-500");
           likeBtn.children[0].classList.remove("!text-red-500");
@@ -1010,18 +882,21 @@ function printWish(productsWishList) {
   }
 }
 
-function hydrateWishlistHearts() {
-  const count = productsWishList.length;
-  const likesCounter = document.getElementById("likesCounter");
-  const heartEl = document.getElementById("heart");
-  likesCounter.innerHTML = count > 9 ? "+9" : String(count);
+function fillWishlistHearts() {
+  let count = productsWishList.length;
+  let likesCounter = document.getElementById("likesCounter");
+  let heartEl = document.getElementById("heart");
+  if (count > 9){
+    likesCounter.innerHTML = "+9"
+  } else {
+    likesCounter.innerHTML = count
+  }
   likesCounter.classList.toggle("hidden", count === 0);
   heartEl.classList.toggle("!fill-red-500", count > 0);
   heartEl.classList.toggle("!text-red-500", count > 0);
 
-
   document.querySelectorAll(".like").forEach((btn) => {
-    const id = Number(btn.id);
+    let id = Number(btn.id);
     if (productsWishList.some((p) => p.id === id)) {
       btn.children[0].classList.add("!fill-red-500", "!text-red-500");
     }
@@ -1029,14 +904,14 @@ function hydrateWishlistHearts() {
 }
 
 function dialogWishlists() {
-  const dialogWishlist = document.getElementById("dialogWishlist");
-  const openBtn = document.getElementById("openDialog2");
-  const closeBtn = document.getElementById("closeDialog3");
+  let dialogWishlist = document.getElementById("dialogWishlist");
+  let openBtn = document.getElementById("openDialog2");
+  let closeBtn = document.getElementById("closeDialog3");
 
   openBtn.addEventListener("click", () => {
     dialogWishlist.showModal();
     printWish(productsWishList);
-    hydrateWishlistHearts();
+    fillWishlistHearts();
   });
   closeBtn.addEventListener("click", () => dialogWishlist.close());
 }
@@ -1044,13 +919,13 @@ function dialogWishlists() {
 dialogWishlists();
 
 function dialogCarts() {
-  const dialogCart = document.getElementById("dialogCart");
-  const openBtn = document.getElementById("openDialog3");
-  const closeBtn = document.getElementById("closeDialog4");
+  let dialogCart = document.getElementById("dialogCart");
+  let openBtn = document.getElementById("openDialog3");
+  let closeBtn = document.getElementById("closeDialog4");
 
   openBtn.addEventListener("click", () => {
     dialogCart.showModal();
-    renderCartFromState();
+    printCart();
     updateCountersAndTotals();
   });
   closeBtn.addEventListener("click", () => dialogCart.close());
@@ -1065,7 +940,6 @@ document.getElementById("addProduct").addEventListener("click", function () {
   let stockv = document.getElementById("stock").value;
   let categoryv = document.getElementById("category").value;
   let brandv = document.getElementById("brand").value;
-  // let url1v = document.getElementById("url1").value;
   let urls = document.querySelectorAll(".url");
 
   for (let i = 0; i < urls.length; i++) {
@@ -1093,7 +967,7 @@ document.getElementById("addProduct").addEventListener("click", function () {
   };
 
   products.push(newProduct);
-  localStorage.setItem("products", JSON.stringify(products));
+  saveProducts()
 
   print(products);
   dialogAddProduct.close();
@@ -1120,7 +994,7 @@ document.getElementById("updateProduct").addEventListener("click", function () {
   products[i].category = categoryEdite;
   products[i].brand = brandEdite;
   products[i].thumbnail = url1Edite;
-  localStorage.setItem("products", JSON.stringify(products));
+  saveProducts()
 
   print(products);
   if (document.querySelector(".cards").classList.contains("flex-col")) {
@@ -1216,11 +1090,11 @@ addImages.addEventListener("click", function () {
   containerImages.append(newImage);
 });
 
-const toggle = document.getElementById("menuToggle");
-const panel = document.getElementById("mobileMenu");
+let toggle = document.getElementById("menuToggle");
+let panel = document.getElementById("mobileMenu");
 
 toggle?.addEventListener("click", () => {
-  const expanded = toggle.getAttribute("aria-expanded") === "true";
+  let expanded = toggle.getAttribute("aria-expanded") === "true";
   toggle.setAttribute("aria-expanded", String(!expanded));
   panel.style.maxHeight = expanded ? "0px" : panel.scrollHeight + "px";
 });
@@ -1250,6 +1124,9 @@ function rowLayout() {
 
     imgcont[i].classList.add("md:w-[192px]");
   }
+  document.getElementById("toggleLayout").classList.add("border")
+  document.getElementById("toggleLayout").classList.add("border-xs")
+  document.getElementById("toggleLayout").classList.add("border-slate-800")
 }
 
 function gridLayout() {
@@ -1271,8 +1148,8 @@ function gridLayout() {
 }
 document.getElementById("gridLayout").addEventListener("click", gridLayout);
 
-const btn = document.getElementById("dropdownBtn");
-const menu = document.getElementById("dropdownMenu");
+let btn = document.getElementById("dropdownBtn");
+let menu = document.getElementById("dropdownMenu");
 
 btn.addEventListener("click", () => {
   menu.classList.toggle("hidden");
@@ -1291,9 +1168,12 @@ let furniture = document.getElementById("furniture");
 let groceries = document.getElementById("groceries");
 
 all.addEventListener("click", function () {
-
   print(products);
   menu.classList.add("hidden");
+  btn.innerHTML = `All
+  <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>`;
 });
 beauty.addEventListener("click", function () {
   let beautyArr = products.filter(function (p) {
@@ -1301,6 +1181,10 @@ beauty.addEventListener("click", function () {
   });
   print(beautyArr);
   menu.classList.add("hidden");
+  btn.innerHTML = `Beauty
+  <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>`;
 });
 fragrances.addEventListener("click", function () {
   let fragrancesArr = products.filter(function (p) {
@@ -1308,6 +1192,10 @@ fragrances.addEventListener("click", function () {
   });
   print(fragrancesArr);
   menu.classList.add("hidden");
+  btn.innerHTML = `Fragrances
+  <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>`;
 });
 furniture.addEventListener("click", function () {
   let furnitureArr = products.filter(function (p) {
@@ -1315,6 +1203,10 @@ furniture.addEventListener("click", function () {
   });
   print(furnitureArr);
   menu.classList.add("hidden");
+  btn.innerHTML = `Furniture
+  <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>`;
 });
 groceries.addEventListener("click", function () {
   let groceriesArr = products.filter(function (p) {
@@ -1322,4 +1214,21 @@ groceries.addEventListener("click", function () {
   });
   print(groceriesArr);
   menu.classList.add("hidden");
+  btn.innerHTML = `Groceries
+  <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>`;
+});
+
+[
+  "DialogAddProduct",
+  "dialogDetails",
+  "dialogCart",
+  "dialogWishlist",
+  "DialogEditeProduct",
+].forEach((id) => {
+  let dlg = document.getElementById(id);
+  dlg.addEventListener("click", (e) => {
+    if (e.target === dlg) dlg.close();
+  });
 });
