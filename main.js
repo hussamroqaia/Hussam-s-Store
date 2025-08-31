@@ -54,9 +54,9 @@ function printCart() {
     prodCart.setAttribute("id", `c${p.id}`);
     prodCart.innerHTML = `
       <div
-  class="flex flex-col md:flex-row items-center gap-4 p-4
+  class="flex flex-col items-center gap-4 p-4
          rounded-xl border bg-[rgb(92,99,120)] text-white shadow-sm
-         transition-all hover:shadow-md mb-4 max-w-xs md:max-w-xl"
+         transition-all hover:shadow-md mb-4 max-w-xs sm:max-w-xl "
 >
   
   <div class="shrink-0">
@@ -86,7 +86,7 @@ function printCart() {
       id="bd${p.id}"
       class="inline-flex items-center justify-center h-10 w-10 rounded-md
              border border-white/30 bg-white/10 hover:bg-white/20 transition
-             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 cursor-pointer"
 
     >
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
@@ -104,7 +104,7 @@ function printCart() {
       id="bi${p.id}"
       class="inline-flex items-center justify-center h-10 w-10 rounded-md
              border border-white/30 bg-white/10 hover:bg-white/20 transition
-             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+             focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 cursor-pointer"
 
     >
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4"
@@ -300,7 +300,7 @@ function detailsEdite(i) {
   document
     .getElementById("detailsImg1")
     .setAttribute("src", `${products[i].images[0]}`);
- 
+
   document.getElementById("detailsTitle").innerHTML = `${products[i].title}`;
   document.getElementById(
     "detailsDescription"
@@ -443,7 +443,7 @@ function print(products) {
     cards.innerHTML += `
     <div
     
-            class="card bg-white max-w-3xs bg-card text-card-foreground gap-2 rounded-xl py-6  hover:shadow-xl transition-all border-0 shadow-md pt-0  flex flex-col opacity-100 translate-y-0 "
+            class="card bg-white max-w-4xs sm:max-w-3xs md:max-w-4xs w-[100%]  gap-2 rounded-xl py-6  hover:shadow-xl transition-all border-0 shadow-md pt-0 sm:h-[424px] flex flex-col opacity-100 translate-y-0 "
             id="${product.id}"
             >
             <div
@@ -454,7 +454,7 @@ function print(products) {
                 <img
                   src="${product.images[0]}"
                   alt="${product.title}"
-                  class=" w-full h-48 object-fit rounded-t-lg cursor-pointer "
+                  class="imggg w-full sm:h-48 object-fit rounded-t-lg cursor-pointer "
                 />
                 <div class="absolute imageProduct cursor-pointer inset-0 bg-black/3 rounded-xl "></div>
                 <span
@@ -465,6 +465,7 @@ function print(products) {
   </span>
                 <div class="absolute top-2 right-2 flex gap-1">
                   <button
+                  title="Edite"
                     id="e${product.id}"
                     class="edite inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium  bg-base hover:bg-slate-200 hover:cursor-pointer size-9"
                   >
@@ -610,11 +611,11 @@ function print(products) {
             </div>
             <div
               
-              class="px-4 flex gap-2"
+              class="px-4 flex gap-2 footer-product"
             >
               <button
                 id="o${product.id}"
-                class="view cursor-pointer inline-flex items-center justify-center   rounded-md text-sm font-medium transition-all  bg-neutral text-base shadow-xs hover:bg-slate-900 h-9 px-4 pb-2  w-full"
+                class="view cursor-pointer inline-flex items-center justify-center   rounded-md text-sm font-medium transition-all  bg-neutral text-base shadow-xs hover:bg-slate-900 h-9 px-4 py-2  w-full"
               >
                 View Details
               </button>
@@ -737,7 +738,19 @@ function print(products) {
       saveWish();
     });
     edites[i].addEventListener("click", function () {
+      document.getElementById("containerImagesEdite").innerHTML = ""
+      document.getElementById("containerImagesEdite").innerHTML = `
+      <input
+                id="url1Edite"
+                class="urlEdite assasy h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
+                placeholder="Image URL 1"
+                value=""
+              />
+      `
+      
       DialogEditeProduct.showModal();
+      DialogEditeProduct.dataset.productIndex = String(i);
+
       document.querySelectorAll('[name="error-msg"]').forEach(function (msg) {
         msg.remove();
       });
@@ -750,10 +763,32 @@ function print(products) {
       document.getElementById("stockEdite").value = products[i].stock;
       document.getElementById("categoryEdite").value = products[i].category;
       document.getElementById("brandEdite").value = products[i].brand;
-      document.getElementById("url1Edite").value = products[i].thumbnail;
+      document.getElementById("url1Edite").value = products[i].images[0];
+      let containerImagesEdite = document.getElementById(
+        "containerImagesEdite"
+      );
+      for (let index = 1; index < products[i].images.length; index++) {
+        let newImage = document.createElement("div");
+        newImage.innerHTML = `<input id="url${
+          index + 1
+        }Edite" class="urlEdite assasy h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary url" placeholder="Image URL ${
+          index + 1
+        }" value="">`;
+        containerImagesEdite.append(newImage);
+        document.getElementById(`url${index + 1}Edite`).value =
+          products[i].images[index];
+      }
+
       document.getElementById("discountPercentageEdite").value =
         products[i].discountPercentage;
       document.getElementById("ratingEdite").value = products[i].rating;
+      let urlEditeD = document.querySelectorAll(".urlEdite");
+      for (let index = 0; index < urlEditeD.length; index++) {
+        if (urlEditeD[index].value.trim() == "") {
+          urlEditeD[index].parentElement.remove();
+          urlEditeD[index].remove();
+        }
+      }
     });
   }
   fillWishlistHearts();
@@ -818,7 +853,7 @@ function printWish(productsWishList) {
       id="view${product.id}"
       class="inline-flex items-center justify-center h-10 px-4 rounded-md
              text-sm font-medium  text-white bg-neutral hover:bg-slate-900
-             
+             cursor-pointer
              shadow-xs transition
              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
     >
@@ -828,7 +863,7 @@ function printWish(productsWishList) {
       id="close${product.id}"
       class="inline-flex items-center justify-center h-10 px-3 rounded-md
               shadow-xs text-sm font-medium bg-neutral hover:bg-slate-900 text-white
-             outline-none"
+             outline-none cursor-pointer"
     >
       Remove
       
@@ -886,10 +921,10 @@ function fillWishlistHearts() {
   let count = productsWishList.length;
   let likesCounter = document.getElementById("likesCounter");
   let heartEl = document.getElementById("heart");
-  if (count > 9){
-    likesCounter.innerHTML = "+9"
+  if (count > 9) {
+    likesCounter.innerHTML = "+9";
   } else {
-    likesCounter.innerHTML = count
+    likesCounter.innerHTML = count;
   }
   likesCounter.classList.toggle("hidden", count === 0);
   heartEl.classList.toggle("!fill-red-500", count > 0);
@@ -967,7 +1002,7 @@ document.getElementById("addProduct").addEventListener("click", function () {
   };
 
   products.push(newProduct);
-  saveProducts()
+  saveProducts();
 
   print(products);
   dialogAddProduct.close();
@@ -980,10 +1015,16 @@ document.getElementById("updateProduct").addEventListener("click", function () {
   let stockEdite = document.getElementById("stockEdite").value;
   let categoryEdite = document.getElementById("categoryEdite").value;
   let brandEdite = document.getElementById("brandEdite").value;
-  let url1Edite = document.getElementById("url1Edite").value;
   var inputsElements = document.querySelectorAll(`#DialogEditeProduct input`);
   let priceInput = document.getElementById("priceEdite");
   let stockInput = document.getElementById("stockEdite");
+  // let url1Edite = document.getElementById("url1Edite").value;
+  let urlArryEdite = [];
+  let urlsEdite = document.querySelectorAll(".urlEdite");
+  for (let i = 0; i < urlsEdite.length; i++) {
+    urlArryEdite.push(urlsEdite[i].value);
+  }
+
   if (!validate(inputsElements, priceInput, stockInput)) return;
 
   let i = Number(DialogEditeProduct.dataset.productIndex || 0);
@@ -993,8 +1034,8 @@ document.getElementById("updateProduct").addEventListener("click", function () {
   products[i].stock = stockEdite;
   products[i].category = categoryEdite;
   products[i].brand = brandEdite;
-  products[i].thumbnail = url1Edite;
-  saveProducts()
+  products[i].images = urlArryEdite;
+  saveProducts();
 
   print(products);
   if (document.querySelector(".cards").classList.contains("flex-col")) {
@@ -1004,10 +1045,15 @@ document.getElementById("updateProduct").addEventListener("click", function () {
 });
 
 function search(userInput, arr, fun) {
+  document.getElementById("emptyState").classList.add("hidden");
+
   var filteredProducts = arr.filter(function (product) {
     return product.title.toLowerCase().includes(userInput.toLowerCase().trim());
   });
   fun(filteredProducts);
+  if (filteredProducts.length == 0) {
+    document.getElementById("emptyState").classList.remove("hidden");
+  }
 }
 
 document
@@ -1089,6 +1135,21 @@ addImages.addEventListener("click", function () {
   newImage.innerHTML = `<input id="url${k}" class="h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary url" placeholder="Image URL ${k}" value="">`;
   containerImages.append(newImage);
 });
+let addImagesDetails = document.getElementById("addImagesDetails");
+
+addImagesDetails.addEventListener("click", function () {
+  let urlll = document.querySelectorAll(".urlEdite");
+
+  let i = Number(dialogDetails.dataset.productIndex || 0);
+
+  let newImage = document.createElement("div");
+  newImage.innerHTML = `<input id="url${
+    urlll.length + 1
+  }Edite" class="urlEdite h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary url" placeholder="Image URL ${
+    urlll.length + 1
+  }" value="">`;
+  document.getElementById("containerImagesEdite").append(newImage);
+});
 
 let toggle = document.getElementById("menuToggle");
 let panel = document.getElementById("mobileMenu");
@@ -1106,57 +1167,90 @@ panel?.querySelectorAll("a").forEach((a) => {
   });
 });
 
-document.getElementById("toggleLayout").addEventListener("click", rowLayout);
+let rowBtn = document.getElementById("rowLayout");
+rowBtn.addEventListener("click", rowLayout);
 
 function rowLayout() {
   document.querySelector(".cards").classList.add("flex-col");
   let cards = document.querySelectorAll(".card");
   let mainCard = document.querySelectorAll(".mainCard");
   let imgcont = document.querySelectorAll(".imgcont");
+  let imggg = document.querySelectorAll(".imggg");
+  let footerProduct = document.querySelectorAll(".footer-product");
   for (let i = 0; i < cards.length; i++) {
-    cards[i].classList.remove("h-[480px]");
-    cards[i].classList.remove("max-w-3xs");
+    cards[i].classList.remove("sm:h-[424px]");
+    cards[i].classList.remove("max-w-4xs");
+    cards[i].classList.remove("sm:max-w-3xs");
     cards[i].classList.remove("py-6");
-    cards[i].classList.add("md:flex-row");
+    cards[i].classList.add("sm:flex-row");
     cards[i].classList.add("md:max-w-3xxl");
-    cards[i].classList.add("w-[80%]");
-    mainCard[i].classList.add("md:w-[30%]");
+    cards[i].classList.add("md:!h-[160px]");
 
+    mainCard[i].classList.add("md:w-[30%]");
+    mainCard[i].classList.add("sm:w-[20%]");
     imgcont[i].classList.add("md:w-[192px]");
+    imgcont[i].classList.add("sm:w-[160px]");
+    imggg[i].classList.remove("h-48");
+    imggg[i].classList.add("md:h-[160px]");
+    footerProduct[i].classList.add("sm:pt-5");
   }
-  document.getElementById("toggleLayout").classList.add("border")
-  document.getElementById("toggleLayout").classList.add("border-xs")
-  document.getElementById("toggleLayout").classList.add("border-slate-800")
+  gridBtn.classList.remove("!bg-primary");
+  gridBtn.classList.remove("!text-white");
+  rowBtn.classList.add("!bg-primary");
+  rowBtn.classList.add("!text-white");
 }
 
+let gridBtn = document.getElementById("gridLayout");
+gridBtn.addEventListener("click", gridLayout);
+
 function gridLayout() {
+  rowBtn.classList.remove("!bg-primary");
+  rowBtn.classList.remove("!text-white");
+  gridBtn.classList.add("!bg-primary");
+  gridBtn.classList.add("!text-white");
+  let imggg = document.querySelectorAll(".imggg");
+
   document.querySelector(".cards").classList.remove("flex-col");
   let cards = document.querySelectorAll(".card");
   let mainCard = document.querySelectorAll(".mainCard");
   let imgcont = document.querySelectorAll(".imgcont");
-  for (let i = 0; i < cards.length; i++) {
-    cards[i].classList.add("h-[480px]");
-    cards[i].classList.add("max-w-3xs");
-    cards[i].classList.add("py-6");
-    cards[i].classList.remove("md:flex-row");
-    cards[i].classList.remove("md:max-w-3xxl");
-    cards[i].classList.remove("w-[80%]");
-    mainCard[i].classList.remove("md:w-[30%]");
+  let footerProduct = document.querySelectorAll(".footer-product");
 
+  for (let i = 0; i < cards.length; i++) {
+    cards[i].classList.add("sm:h-[424px]");
+    cards[i].classList.add("max-w-4xs");
+    cards[i].classList.add("sm:max-w-3xs");
+
+    cards[i].classList.add("py-6");
+    cards[i].classList.remove("sm:flex-row");
+    cards[i].classList.remove("md:max-w-3xxl");
+    cards[i].classList.remove("md:!h-[160px]");
+
+    mainCard[i].classList.remove("md:w-[30%]");
+    mainCard[i].classList.remove("sm:w-[20%]");
     imgcont[i].classList.remove("md:w-[192px]");
+    imgcont[i].classList.remove("sm:w-[160px]");
+    imggg[i].classList.add("h-48");
+    imggg[i].classList.remove("md:h-[160px]");
+
+    footerProduct[i].classList.remove("sm:pt-5");
   }
 }
-document.getElementById("gridLayout").addEventListener("click", gridLayout);
 
 let btn = document.getElementById("dropdownBtn");
 let menu = document.getElementById("dropdownMenu");
+let explore = document.getElementById("exploreCategories");
 
 btn.addEventListener("click", () => {
   menu.classList.toggle("hidden");
 });
 
 document.addEventListener("click", (e) => {
-  if (!btn.contains(e.target) && !menu.contains(e.target)) {
+  if (
+    !btn.contains(e.target) &&
+    !menu.contains(e.target) &&
+    !explore.contains(e.target)
+  ) {
     menu.classList.add("hidden");
   }
 });
@@ -1231,4 +1325,20 @@ groceries.addEventListener("click", function () {
   dlg.addEventListener("click", (e) => {
     if (e.target === dlg) dlg.close();
   });
+});
+
+let clearSearchBtn = document.getElementById("clearSearchBtn");
+clearSearchBtn.addEventListener("click", function () {
+  document.getElementById("searchInputProduct").value = "";
+  document.getElementById("searchInputProduct").focus();
+  document.getElementById("dropdownBtn").click();
+
+  document.getElementById("dropdownMenu").classList.remove("hidden");
+
+  document.getElementById("emptyState").classList.add("hidden");
+  print(products);
+});
+explore.addEventListener("click", function () {
+  document.getElementById("dropdownBtn").focus();
+  document.getElementById("dropdownBtn").click();
 });

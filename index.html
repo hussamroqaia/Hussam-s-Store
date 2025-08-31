@@ -72,7 +72,7 @@
             </svg>
             <span
               id="likesCounter"
-              class="hidden absolute -top-[35%] -right-[35%] h-5 w-5 rounded-full bg-red-500 text-xs font-medium !text-white flex items-center justify-center"
+              class="hidden absolute -top-[25%] -right-[25%] h-5 w-5 rounded-full bg-red-500 text-xs font-medium !text-white flex items-center justify-center"
             ></span>
           </button>
 
@@ -98,14 +98,14 @@
             </svg>
             <span
               id="basketCounter"
-              class="hidden absolute -top-[35%] -right-[35%] h-5 w-5 rounded-full bg-primary text-xs font-medium text-white flex items-center justify-center"
+              class="hidden absolute -top-[25%] -right-[25%] h-5 w-5 rounded-full bg-primary text-xs font-medium text-white flex items-center justify-center"
               >0</span
             >
           </button>
 
           <button
             id="menuToggle"
-            class="md:hidden inline-flex items-center justify-center size-10 rounded-md hover:bg-black/10 transition-all"
+            class="md:hidden inline-flex items-center justify-center size-10 rounded-md hover:bg-black/10 transition-all cursor-pointer"
             aria-label="Toggle menu"
             aria-controls="mobileMenu"
             aria-expanded="false"
@@ -116,15 +116,15 @@
             >
               <span
                 id="bar1"
-                class="block h-0.5 w-7 bg-current rounded transition-transform duration-300 ease-in-out"
+                class="block h-0.5 w-7 bg-base rounded transition-transform duration-300 ease-in-out"
               ></span>
               <span
                 id="bar2"
-                class="block h-0.5 w-7 bg-current rounded transition-opacity duration-300 ease-in-out"
+                class="block h-0.5 w-7 bg-base rounded transition-opacity duration-300 ease-in-out"
               ></span>
               <span
                 id="bar3"
-                class="block h-0.5 w-7 bg-current rounded transition-transform duration-300 ease-in-out"
+                class="block h-0.5 w-7 bg-base rounded transition-transform duration-300 ease-in-out"
               ></span>
             </span>
           </button>
@@ -142,6 +142,7 @@
               >Home</a
             >
           </li>
+
           <li>
             <a
               class="block rounded-md px-3 py-2 hover:bg-black/10 hover:text-primary"
@@ -167,13 +168,21 @@
         class="py-20 text-white bg-gradient-to-b from-neutral from-[5%] to-secondary to-[95%]"
       >
         <div
-          class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-6 grid grid-cols-1 md:grid-cols-2 items-center gap-10"
+          class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-6 grid grid-cols-1 sm:grid-cols-2 items-center gap-10"
         >
-          <div data-aos="fade-right" data-aos-duration="1200" class="flex flex-col justify-center gap-5 order-2 md:order-1">
-            <h1 class="text-5xl md:text-6xl font-bold">
+          <div
+            data-aos="fade-right"
+            data-aos-duration="1200"
+            class="flex flex-col justify-center items-center sm:items-start gap-5"
+          >
+            <h1
+              class="text-[45px] sm:text-5xl md:text-6xl font-bold text-center sm:text-start"
+            >
               Discover Amazing Products
             </h1>
-            <h2 class="text-2xl font-medium">
+            <h2
+              class="text-xl sm:text-2xl font-medium text-center sm:text-start"
+            >
               Shop the latest trends with unbeatable prices
             </h2>
             <a
@@ -184,7 +193,11 @@
             </a>
           </div>
 
-          <div data-aos="fade-left" data-aos-duration="1200" class="flex justify-center order-1 md:order-2">
+          <div
+            data-aos="fade-left"
+            data-aos-duration="1200"
+            class="flex justify-center order-1 md:order-2 hidden sm:block"
+          >
             <img
               src="https://images.pexels.com/photos/5632391/pexels-photo-5632391.jpeg?auto=compress&cs=tinysrgb&w=1000"
               alt="E-commerce shopping bags"
@@ -215,7 +228,7 @@
               </svg>
               <input
                 id="searchInputProduct"
-                class="flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-md transition-all pl-10 focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none"
+                class="flex h-9 w-full min-w-0 rounded-md border border-neutral bg-transparent px-3 py-1 shadow-md transition-all pl-10 focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none"
                 placeholder="Search products..."
                 value=""
               />
@@ -223,7 +236,7 @@
             <div class="relative inline-block text-left">
               <button
                 id="dropdownBtn"
-                class="h-9 rounded-xl border border-primary px-3 text-sm bg-base text-primary flex items-center justify-between w-40 focus:outline-none focus:ring-2 focus:ring-primary"
+                class="h-9 rounded-md border px-3 text-md bg-transparent text-neutral flex items-center justify-between cursor-pointer md:w-40 w-full focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none shadow-md"
               >
                 Category
                 <svg
@@ -244,35 +257,35 @@
 
               <div
                 id="dropdownMenu"
-                class="absolute mt-2 w-40 rounded-xl border border-primary bg-white shadow-lg hidden z-50"
+                class="absolute mt-2 md:w-40 w-full rounded-md border border-accent bg-white shadow-lg hidden z-50"
               >
                 <button
                   id="all"
-                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all"
+                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all rounded-md"
                 >
                   All
                 </button>
                 <button
                   id="beauty"
-                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all"
+                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all rounded-md"
                 >
                   Beauty
                 </button>
                 <button
                   id="fragrances"
-                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all"
+                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all rounded-md"
                 >
                   Fragrances
                 </button>
                 <button
                   id="furniture"
-                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all"
+                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all rounded-md"
                 >
                   Furniture
                 </button>
                 <button
                   id="groceries"
-                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all"
+                  class="block w-full px-3 py-2 text-left text-black hover:bg-primary hover:text-white transition-all rounded-md"
                 >
                   Groceries
                 </button>
@@ -281,7 +294,7 @@
             <div class="flex gap-2">
               <button
                 id="gridLayout"
-                class="hidden sm:inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all text-primary-foreground shadow-xs size-9 bg-gray-300 hover:bg-gray-400 cursor-pointer"
+                class="hidden sm:inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all text-primary-foreground shadow-md size-9 bg-gray-300 hover:bg-gray-400 cursor-pointer !bg-primary !text-white"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -303,8 +316,8 @@
                 </svg>
               </button>
               <button
-                id="toggleLayout"
-                class="hidden sm:inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all text-primary-foreground shadow-xs size-9 bg-gray-300 hover:bg-gray-400 cursor-pointer"
+                id="rowLayout"
+                class="hidden sm:inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all text-primary-foreground shadow-md size-9 bg-gray-300 hover:bg-gray-400 cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -329,7 +342,7 @@
             </div>
             <button
               id="openDialogAddProduct"
-              class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all text-neutral shadow-xs h-9 px-4 py-2 bg-accent hover:bg-primary cursor-pointer"
+              class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all text-white hover:bg-[#e69900] shadow-md h-9 px-4 py-2 bg-primary cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -351,9 +364,61 @@
           </div>
         </div>
         <div
-        data-aos="fade-up" data-aos-duration="1200"
+          data-aos="fade-up"
+          data-aos-duration="1200"
           class="cards flex justify-center items-center flex-wrap gap-5 px-6 max-w-7xl mx-auto"
         ></div>
+        <div
+          id="emptyState"
+          class="hidden rounded-2xl   bg-base text-neutral  p-6 sm:p-8 flex flex-col items-center justify-center text-center gap-4"
+        >
+          <div
+            class="flex items-center justify-center h-16 w-16 text-base rounded-full bg-neutral ring-1 ring-white/20"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-7 w-7"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </svg>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold">No matches found</h3>
+            <p class="text-neutral mt-1">
+              We couldn’t find results for
+              <span class="font-semibold" id="emptyQuery">your search</span>.
+            </p>
+          </div>
+
+          <ul class="text-sm text-neutral space-y-1">
+            <li>• Check your spelling</li>
+            <li>• Try fewer or different keywords</li>
+            <li>• Browse by category</li>
+          </ul>
+
+          <div class="flex flex-wrap items-center gap-2 mt-2">
+            <button
+              id="clearSearchBtn"
+              class="inline-flex items-center justify-center h-10 px-4 rounded-md bg-neutral hover:bg-slate-900 text-white transition cursor-pointer"
+            >
+              Clear search
+            </button>
+            <button
+              id="exploreCategories"
+              class="inline-flex items-center justify-center h-10 px-4 rounded-md bg-neutral hover:bg-slate-900 text-white transition"
+            >
+              Explore categories
+            </button>
+          </div>
+        </div>
       </section>
     </main>
 
@@ -502,34 +567,23 @@
             </div>
             <button
               id="addImages"
-              class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all border shadow-xs hover:bg-primary hover:text-base hover:border-transparent h-9 px-4 py-2 w-full bg-transparent text-neutral border-secondary"
+              class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all border shadow-xs hover:bg-primary hover:text-base hover:border-transparent h-9 px-4 py-2 w-full bg-transparent text-neutral border-secondary cursor-pointer"
             >
               <span class="text-2xl mr-2 mb-1.5 font-normal">+</span>
               Add Image URL
             </button>
           </div>
         </div>
-        <div class="space-y-2">
-          <label
-            class="flex items-center gap-2 text-sm font-medium text-neutral"
-            for="tags"
-            >Tags</label
-          ><textarea
-            class="flex min-h-16 w-full rounded-md border bg-transparent px-3 py-2 shadow-xs transition-[color,box-shadow] focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none md:text-sm border-secondary"
-            id="tags"
-            placeholder="Enter tags separated by commas"
-            style="height: 72px"
-          ></textarea>
-        </div>
+        
         <div class="flex gap-4 pt-4">
           <button
             id="closeDialogAddProduct1"
-            class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium border shadow-xs hover:bg-primary hover:text-white hover:border-transparent h-9 px-4 py-2 flex-1 transition-all bg-transparent text-neutral border-secondary"
+            class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium border shadow-xs hover:bg-primary hover:text-white hover:border-transparent h-9 px-4 py-2 flex-1 transition-all bg-transparent text-neutral border-secondary cursor-pointer"
           >
             Cancel</button
           ><button
             id="addProduct"
-            class="rounded-md text-sm font-medium bg-neutral text-white shadow-xs hover:bg-slate-900 h-9 px-4 py-2 flex-1"
+            class="rounded-md text-sm font-medium bg-neutral text-white shadow-xs hover:bg-slate-900 h-9 px-4 py-2 flex-1 cursor-pointer"
           >
             Add Product
           </button>
@@ -538,7 +592,7 @@
       <button
         id="closeDialogAddProduct2"
         type="button"
-        class="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 size-3"
+        class="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 size-3 cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -559,30 +613,22 @@
       </button>
     </dialog>
 
-    
-
     <dialog
       id="dialogDetails"
       class="fixed top-1/2 left-1/2 z-50 grid w-[92vw] sm:w-full max-w-[1200px] translate-x-[-50%] translate-y-[-50%] gap-6 rounded-xl border shadow-lg bg-[rgb(92,99,120)] text-white p-4 sm:p-6 max-h-[90vh] overflow-y-auto"
     >
-      <div class="grid md:grid-cols-2 gap-6 ">
-        <div class=" rounded-lg">
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="rounded-lg">
           <img
             id="detailsImg"
             alt=""
-            class="w-full h-96 object-fit rounded-lg mb-4 bg-[rgb(200,206,220)]  ring-3 ring-white/10"
+            class="w-full h-96 object-fit rounded-lg mb-4 bg-[rgb(200,206,220)] ring-3 ring-white/10"
             src=""
           />
-          <div id="conDetailsImg" class="flex gap-2 overflow-x-auto p-1 bg-[rgb(92,99,120)]">
-            
-            
-            <!-- <img
-              id="detailsImg3"
-              alt=""
-              class="w-18 h-18 object-cover rounded cursor-pointer ring-1 ring-white/30 hover:ring-primary transition mt-1 ml-1"
-              src=""
-            /> -->
-          </div>
+          <div
+            id="conDetailsImg"
+            class="flex gap-2 overflow-x-auto p-1 bg-[rgb(92,99,120)]"
+          ></div>
         </div>
 
         <div>
@@ -785,9 +831,10 @@
 
     <dialog
       id="dialogWishlist"
-      class="fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg sm:max-w-lg max-h-[80vh] overflow-y-auto bg-[rgb(240,242,247)] "
+      class="fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg sm:max-w-lg max-h-[80vh] overflow-y-auto bg-[rgb(240,242,247)]"
       style="pointer-events: auto"
     >
+    
       <div class="flex flex-col gap-2 text-center sm:text-left">
         <h2 class="text-lg leading-none font-semibold">
           Wishlist (<span id="productsWishlistCount">0</span> items)
@@ -821,7 +868,7 @@
 
       <button
         id="closeDialog3"
-        class="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100"
+        class="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -874,7 +921,7 @@
 
       <button
         id="closeDialog4"
-        class="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100"
+        class="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -921,7 +968,7 @@
           <div class="flex justify-between items-center text-xl font-bold">
             <span id="finalTotal">Total: $0</span
             ><button
-              class="inline-flex items-center justify-center gap-2 text-sm font-medium transition-all shadow-xs h-10 rounded-md px-6 bg-slate-700 text-white hover:bg-slate-900"
+              class="inline-flex items-center justify-center gap-2 text-sm font-medium transition-all shadow-xs h-10 rounded-md px-6 bg-slate-700 text-white hover:bg-slate-900 cursor-pointer"
             >
               Checkout
             </button>
@@ -1064,43 +1111,33 @@
             >Product Images</label
           >
           <div class="space-y-2">
-            <div class="flex gap-2">
+            <div id="containerImagesEdite" class="flex flex-col gap-2">
               <input
                 id="url1Edite"
-                class="h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
+                class="urlEdite assasy h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary"
                 placeholder="Image URL 1"
                 value=""
               />
             </div>
             <button
-              class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all border shadow-xs hover:bg-primary hover:text-base hover:border-transparent h-9 px-4 py-2 w-full bg-transparent text-neutral border-secondary"
+            id="addImagesDetails"
+              class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all border shadow-xs hover:bg-primary hover:text-base hover:border-transparent h-9 px-4 py-2 w-full bg-transparent text-neutral border-secondary cursor-pointer"
             >
               <span class="text-2xl mr-2 mb-1.5 font-normal">+</span>
               Add Image URL
             </button>
           </div>
         </div>
-        <div class="space-y-2">
-          <label
-            class="flex items-center gap-2 text-sm font-medium text-neutral"
-            for="tagsdetails"
-            >Tags</label
-          ><textarea
-            class="flex min-h-16 w-full rounded-md border bg-transparent px-3 py-2 shadow-xs transition-[color,box-shadow] focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none md:text-sm border-secondary"
-            id="tagsdetails"
-            placeholder="Enter tags separated by commas"
-            style="height: 72px"
-          ></textarea>
-        </div>
+        
         <div class="flex gap-4 pt-4">
           <button
             id="closeDialogEdite"
-            class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium border shadow-xs hover:bg-primary hover:text-white hover:border-transparent h-9 px-4 py-2 flex-1 transition-all bg-transparent text-neutral border-secondary"
+            class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium border shadow-xs hover:bg-primary hover:text-white hover:border-transparent h-9 px-4 py-2 flex-1 transition-all bg-transparent text-neutral border-secondary cursor-pointer"
           >
             Cancel</button
           ><button
             id="updateProduct"
-            class="rounded-md text-sm font-medium bg-neutral text-white shadow-xs hover:bg-slate-900 h-9 px-4 py-2 flex-1"
+            class="rounded-md text-sm font-medium bg-neutral text-white shadow-xs hover:bg-slate-900 h-9 px-4 py-2 flex-1 cursor-pointer"
           >
             Update Product
           </button>
@@ -1109,7 +1146,7 @@
       <button
         id="CloseDialogEditeProduct"
         type="button"
-        class="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 size-3"
+        class="absolute top-4 right-4 rounded-xs opacity-70 transition-opacity hover:opacity-100 size-3 cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -1134,15 +1171,13 @@
         <div
           class="flex flex-col md:flex-row justify-between items-start gap-10"
         >
-          <div class="flex flex-col gap-5">
-            <h3>Hussam's Store</h3>
+          <div class="flex flex-col gap-5 ">
+            <h3 class="text-2xl text-primary">Hussam's Store</h3>
             <p class="!text-gray-600">
               Your one-stop destination for amazing products at unbeatable
               prices.<br />
-              Your one-stop destination for amazing products at unbeatable
-              prices.<br />
-              Your one-stop destination for amazing products at unbeatable
-              prices.
+              "A sleek and modern marketplace where quality meets affordability."<br>
+              "Smart shopping made simple — discover, explore, and enjoy."
             </p>
           </div>
           <div class="flex flex-col gap-5 max-w-xs">
@@ -1182,8 +1217,7 @@
       </div>
     </footer>
 
-   
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
       AOS.init();
     </script>
