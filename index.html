@@ -370,7 +370,7 @@
         ></div>
         <div
           id="emptyState"
-          class="hidden rounded-2xl   bg-base text-neutral  p-6 sm:p-8 flex flex-col items-center justify-center text-center gap-4"
+          class="hidden rounded-2xl bg-base text-neutral p-6 sm:p-8 flex flex-col items-center justify-center text-center gap-4"
         >
           <div
             class="flex items-center justify-center h-16 w-16 text-base rounded-full bg-neutral ring-1 ring-white/20"
@@ -574,7 +574,7 @@
             </button>
           </div>
         </div>
-        
+
         <div class="flex gap-4 pt-4">
           <button
             id="closeDialogAddProduct1"
@@ -615,24 +615,24 @@
 
     <dialog
       id="dialogDetails"
-      class="fixed top-1/2 left-1/2 z-50 grid w-[92vw] sm:w-full max-w-[1200px] translate-x-[-50%] translate-y-[-50%] gap-6 rounded-xl border shadow-lg bg-[rgb(92,99,120)] text-white p-4 sm:p-6 max-h-[90vh] overflow-y-auto"
+      class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 grid w-[92vw] md:w-[90vw] lg:w-[90vw] max-w-5xl gap-6 rounded-2xl border border-white/10 bg-[rgb(92,99,120)] text-white p-4 sm:p-6 md:p-8 shadow-2xl max-h-[85svh] sm:max-h-[85vh] overflow-y-auto"
     >
-      <div class="grid md:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
         <div class="rounded-lg">
           <img
             id="detailsImg"
             alt=""
-            class="w-full h-96 object-fit rounded-lg mb-4 bg-[rgb(200,206,220)] ring-3 ring-white/10"
+            class="w-full h-64 sm:h-80 lg:h-[460px] object-fit rounded-lg mb-4 bg-[rgb(200,206,220)] ring-2 ring-white/10"
             src=""
           />
           <div
             id="conDetailsImg"
-            class="flex gap-2 overflow-x-auto p-1 bg-[rgb(92,99,120)]"
+            class="flex gap-2 lg:gap-3 overflow-x-auto p-1 -mx-1 snap-x snap-mandatory"
           ></div>
         </div>
 
-        <div>
-          <div class="flex flex-col gap-2 text-center sm:text-left">
+        <div class="space-y-3">
+          <div class="md:col-span-7">
             <h2 id="detailsTitle" class="font-semibold text-2xl"></h2>
           </div>
 
@@ -755,7 +755,10 @@
             </div>
           </div>
 
-          <div id="counterFoot" class="space-y-4">
+          <div
+            id="counterFoot"
+            class="space-y-4 md:sticky md:bottom-0 md:pt-2 md:bg-[rgb(92,99,120)]/80 md:backdrop-blur"
+          >
             <div class="flex items-center gap-4">
               <div class="flex items-center gap-2">
                 <button
@@ -811,7 +814,7 @@
 
       <button
         id="closeDialog1"
-        class="absolute top-4 right-4 rounded-md p-2 opacity-70 hover:opacity-100 cursor-pointer"
+        class="absolute top-3 right-3 size-10 sm:size-9 rounded-full bg-white/10 hover:bg-white/20 p-2 opacity-80 hover:opacity-100 cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -834,7 +837,6 @@
       class="fixed top-[50%] left-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg sm:max-w-lg max-h-[80vh] overflow-y-auto bg-[rgb(240,242,247)]"
       style="pointer-events: auto"
     >
-    
       <div class="flex flex-col gap-2 text-center sm:text-left">
         <h2 class="text-lg leading-none font-semibold">
           Wishlist (<span id="productsWishlistCount">0</span> items)
@@ -907,41 +909,41 @@
         <p class="text-gray-500">Your wishlist is empty</p>
       </div>
       <div
-          id="emptyStateWishlist"
-          class="hidden rounded-2xl   bg-base text-neutral  p-6 sm:p-8 flex flex-col items-center justify-center text-center gap-4"
+        id="emptyStateWishlist"
+        class="hidden rounded-2xl bg-base text-neutral p-6 sm:p-8 flex flex-col items-center justify-center text-center gap-4"
+      >
+        <div
+          class="flex items-center justify-center h-16 w-16 text-base rounded-full bg-neutral ring-1 ring-white/20"
         >
-          <div
-            class="flex items-center justify-center h-16 w-16 text-base rounded-full bg-neutral ring-1 ring-white/20"
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-7 w-7"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-7 w-7"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="m21 21-4.3-4.3"></path>
-            </svg>
-          </div>
-
-          <div>
-            <h3 class="text-xl font-semibold">No matches found</h3>
-            <p class="text-neutral mt-1">
-              We couldn’t find results for
-              <span class="font-semibold" id="emptyQuery">your search</span>.
-            </p>
-          </div>
-
-          <ul class="text-sm text-neutral space-y-1">
-            <li>• Check your spelling</li>
-            <li>• Try fewer or different keywords</li>
-            <li>• Browse by category</li>
-          </ul>
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
         </div>
+
+        <div>
+          <h3 class="text-xl font-semibold">No matches found</h3>
+          <p class="text-neutral mt-1">
+            We couldn’t find results for
+            <span class="font-semibold" id="emptyQuery">your search</span>.
+          </p>
+        </div>
+
+        <ul class="text-sm text-neutral space-y-1">
+          <li>• Check your spelling</li>
+          <li>• Try fewer or different keywords</li>
+          <li>• Browse by category</li>
+        </ul>
+      </div>
       <div id="productCardWishList" class="flex flex-col gap-4"></div>
     </dialog>
 
@@ -1156,7 +1158,7 @@
               />
             </div>
             <button
-            id="addImagesDetails"
+              id="addImagesDetails"
               class="inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-all border shadow-xs hover:bg-primary hover:text-base hover:border-transparent h-9 px-4 py-2 w-full bg-transparent text-neutral border-secondary cursor-pointer"
             >
               <span class="text-2xl mr-2 mb-1.5 font-normal">+</span>
@@ -1164,7 +1166,7 @@
             </button>
           </div>
         </div>
-        
+
         <div class="flex gap-4 pt-4">
           <button
             id="closeDialogEdite"
@@ -1207,12 +1209,13 @@
         <div
           class="flex flex-col md:flex-row justify-between items-start gap-10"
         >
-          <div class="flex flex-col gap-5 ">
+          <div class="flex flex-col gap-5">
             <h3 class="text-2xl text-primary">Hussam's Store</h3>
             <p class="!text-gray-600">
               Your one-stop destination for amazing products at unbeatable
               prices.<br />
-              "A sleek and modern marketplace where quality meets affordability."<br>
+              "A sleek and modern marketplace where quality meets
+              affordability."<br />
               "Smart shopping made simple — discover, explore, and enjoy."
             </p>
           </div>

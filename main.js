@@ -28,13 +28,13 @@ openBtnAddProduct.addEventListener("click", () => {
   document.querySelectorAll('[name="error-msg"]').forEach(function (msg) {
     msg.remove();
   });
-  let urrl = document.querySelectorAll('.url')
+  let urrl = document.querySelectorAll(".url");
   for (let index = 1; index < urrl.length; index++) {
-        if (urrl[index].value.trim() == "") {
-          urrl[index].parentElement.remove();
-          urrl[index].remove();
-        }
-      }
+    if (urrl[index].value.trim() == "") {
+      urrl[index].parentElement.remove();
+      urrl[index].remove();
+    }
+  }
 });
 closeBtnAddProduct1.addEventListener("click", () => dialogAddProduct.close());
 closeBtnAddProduct2.addEventListener("click", () => dialogAddProduct.close());
@@ -164,19 +164,19 @@ function printCart() {
       let newQty = Number(productsCart[idx].numberOfProducts || 0) + 1;
 
       if (newQty > Number(p.stock)) {
-        let dialogCart = document.getElementById("dialogCart")
+        let dialogCart = document.getElementById("dialogCart");
         const scrollY = dialogCart?.scrollTop ?? 0;
 
-      Toastify({
-        text: "You’ve reached the stock limit for this product.",
-        duration: 2500,
-        gravity: "top",
-        position: "right",
-        close: true,
-        selector: dialogCart, 
-        offset: { y: scrollY + 12 }, 
-        className: "toast-z-top",
-      }).showToast();
+        Toastify({
+          text: "You’ve reached the stock limit for this product.",
+          duration: 2500,
+          gravity: "top",
+          position: "right",
+          close: true,
+          selector: dialogCart,
+          offset: { y: scrollY + 12 },
+          className: "toast-z-top",
+        }).showToast();
       }
       newQty = Math.min(newQty, Number(p.stock));
 
@@ -275,11 +275,11 @@ function detailsEdite(i) {
   for (let index = 1; index < products[i].images.length; index++) {
     let img = document.createElement("img");
     img.setAttribute("id", `detailsImg${index + 1}`);
-    img.setAttribute("alt", "");
+    img.setAttribute("alt", `${products[i].title}`);
     img.setAttribute("src", `${products[i].images[index]}`);
     img.setAttribute(
       "class",
-      "imgDet w-18 h-18 object-cover rounded cursor-pointer ring-2 ring-white/30 hover:ring-primary transition mt-1 ml-1"
+      "imgDet w-16 h-16 lg:w-20 lg:h-20 flex-none object-cover rounded cursor-pointer ring-2 ring-white/30 hover:ring-primary transition mt-1 ml-1 snap-start"
     );
     document.getElementById("conDetailsImg").append(img);
     document
@@ -400,8 +400,8 @@ document
         gravity: "top",
         position: "right",
         close: true,
-        selector: dialogDetails, 
-        offset: { y: scrollY + 12 }, 
+        selector: dialogDetails,
+        offset: { y: scrollY + 12 },
         className: "toast-z-top",
       }).showToast();
     }
@@ -424,16 +424,16 @@ detailsAdd.addEventListener("click", function () {
   if (available === 0) {
     const scrollY = dialogDetails?.scrollTop ?? 0;
 
-      Toastify({
-        text: "You’ve reached the stock limit for this product.",
-        duration: 2500,
-        gravity: "top",
-        position: "right",
-        close: true,
-        selector: dialogDetails, 
-        offset: { y: scrollY + 12 }, 
-        className: "toast-z-top",
-      }).showToast();
+    Toastify({
+      text: "You’ve reached the stock limit for this product.",
+      duration: 2500,
+      gravity: "top",
+      position: "right",
+      close: true,
+      selector: dialogDetails,
+      offset: { y: scrollY + 12 },
+      className: "toast-z-top",
+    }).showToast();
     dialogDetails.close();
     return;
   }
@@ -908,17 +908,17 @@ function printWish(listWishlist) {
       .addEventListener("click", function () {
         let id = Number(this.id.replace("close", ""));
         console.log(id);
-        
+
         let cardEl = document.getElementById(`a${id}`);
         if (cardEl) cardEl.remove();
         // productsWishList = productsWishList.filter((p) => p.id !== id);
         console.log(productsWishList);
-        
+
         let index = productsWishList.indexOf(
           productsWishList.find((p) => p.id == id)
         );
         console.log(index);
-        
+
         productsWishList.splice(index, 1);
         console.log(productsWishList);
 
@@ -944,9 +944,6 @@ function printWish(listWishlist) {
       });
   }
 }
-
-
-
 
 function fillWishlistHearts() {
   let count = productsWishList.length;
@@ -1089,8 +1086,8 @@ function search(userInput, arr, fun) {
     return product.title.toLowerCase().includes(userInput.toLowerCase().trim());
   });
   fun(filteredProducts);
-  if (document.querySelector(".cards").classList.contains("flex-col")){
-    rowLayout()
+  if (document.querySelector(".cards").classList.contains("flex-col")) {
+    rowLayout();
   }
   if (filteredProducts.length == 0 && fun == print) {
     document.getElementById("emptyState").classList.remove("hidden");
@@ -1098,21 +1095,17 @@ function search(userInput, arr, fun) {
   if (filteredProducts.length == 0 && fun == printWish) {
     document.getElementById("emptyStateWishlist").classList.remove("hidden");
     document.getElementById("empty").classList.add("hidden");
-    if (productsWishList.length == 0){
-
+    if (productsWishList.length == 0) {
       document.getElementById("empty").classList.remove("hidden");
-    document.getElementById("emptyStateWishlist").classList.add("hidden");
-
+      document.getElementById("emptyStateWishlist").classList.add("hidden");
     }
   }
   if (filteredProducts.length != 0 && fun == printWish) {
     document.getElementById("emptyStateWishlist").classList.add("hidden");
-    if (productsWishList.length == 0){
-
+    if (productsWishList.length == 0) {
       document.getElementById("empty").classList.remove("hidden");
     }
   }
-
 }
 
 document
@@ -1127,7 +1120,7 @@ document
   .addEventListener("input", function () {
     let userInput = document.getElementById("searchInputWishList").value.trim();
     console.log(productsWishList);
-    
+
     search(userInput, productsWishList, printWish);
   });
 
@@ -1189,10 +1182,14 @@ function validate(inputsElements, priceInput, stockInput) {
 let addImages = document.getElementById("addImages");
 let url11 = document.getElementById("url1");
 addImages.addEventListener("click", function () {
-  let uurl = document.querySelectorAll(".url")
+  let uurl = document.querySelectorAll(".url");
 
   let newImage = document.createElement("div");
-  newImage.innerHTML = `<input id="url${uurl.length + 1}" class="h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary url" placeholder="Image URL ${uurl.length + 1}" value="">`;
+  newImage.innerHTML = `<input id="url${
+    uurl.length + 1
+  }" class="h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary url" placeholder="Image URL ${
+    uurl.length + 1
+  }" value="">`;
   containerImages.append(newImage);
 });
 let addImagesDetails = document.getElementById("addImagesDetails");
@@ -1323,72 +1320,90 @@ let groceries = document.getElementById("groceries");
 
 all.addEventListener("click", function () {
   print(products);
-  if (document.querySelector(".cards").classList.contains("flex-col")){
-    rowLayout()
+  if (document.querySelector(".cards").classList.contains("flex-col")) {
+    rowLayout();
   }
   menu.classList.add("hidden");
   btn.innerHTML = `All Products
   <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>`;
-  // focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none
-
+  btn.classList.add("border-primary");
+  btn.classList.add("ring-1");
+  btn.classList.add("ring-accent");
+  btn.classList.add("outline-none");
 });
 beauty.addEventListener("click", function () {
   let beautyArr = products.filter(function (p) {
     return p.category == "beauty";
   });
   print(beautyArr);
-  if (document.querySelector(".cards").classList.contains("flex-col")){
-    rowLayout()
+  if (document.querySelector(".cards").classList.contains("flex-col")) {
+    rowLayout();
   }
   menu.classList.add("hidden");
   btn.innerHTML = `Beauty
   <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>`;
+  btn.classList.add("border-primary");
+  btn.classList.add("ring-1");
+  btn.classList.add("ring-accent");
+  btn.classList.add("outline-none");
 });
 fragrances.addEventListener("click", function () {
   let fragrancesArr = products.filter(function (p) {
     return p.category == "fragrances";
   });
   print(fragrancesArr);
-  if (document.querySelector(".cards").classList.contains("flex-col")){
-    rowLayout()
+  if (document.querySelector(".cards").classList.contains("flex-col")) {
+    rowLayout();
   }
   menu.classList.add("hidden");
   btn.innerHTML = `Fragrances
   <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>`;
+  btn.classList.add("border-primary");
+  btn.classList.add("ring-1");
+  btn.classList.add("ring-accent");
+  btn.classList.add("outline-none");
 });
 furniture.addEventListener("click", function () {
   let furnitureArr = products.filter(function (p) {
     return p.category == "furniture";
   });
   print(furnitureArr);
-  if (document.querySelector(".cards").classList.contains("flex-col")){
-    rowLayout()
+  if (document.querySelector(".cards").classList.contains("flex-col")) {
+    rowLayout();
   }
   menu.classList.add("hidden");
   btn.innerHTML = `Furniture
   <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>`;
+  btn.classList.add("border-primary");
+  btn.classList.add("ring-1");
+  btn.classList.add("ring-accent");
+  btn.classList.add("outline-none");
 });
 groceries.addEventListener("click", function () {
   let groceriesArr = products.filter(function (p) {
     return p.category == "groceries";
   });
   print(groceriesArr);
-  if (document.querySelector(".cards").classList.contains("flex-col")){
-    rowLayout()
+  if (document.querySelector(".cards").classList.contains("flex-col")) {
+    rowLayout();
   }
   menu.classList.add("hidden");
   btn.innerHTML = `Groceries
   <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>`;
+  btn.classList.add("border-primary");
+  btn.classList.add("ring-1");
+  btn.classList.add("ring-accent");
+  btn.classList.add("outline-none");
 });
 
 [
