@@ -18,8 +18,14 @@ dialog:not([open]) {
     }
     .scrollbar::-webkit-scrollbar-thumb:hover {
       background-color: #023047; /* darker on hover */
+      
     }
   }
 
 
-.toastify.toast-z-top { z-index: 99999999 !important; }
+.toast-z-top {
+  z-index: 99999983647 !important;
+}
+
+
+

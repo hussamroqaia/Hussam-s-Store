@@ -28,6 +28,13 @@ openBtnAddProduct.addEventListener("click", () => {
   document.querySelectorAll('[name="error-msg"]').forEach(function (msg) {
     msg.remove();
   });
+  let urrl = document.querySelectorAll('.url')
+  for (let index = 1; index < urrl.length; index++) {
+        if (urrl[index].value.trim() == "") {
+          urrl[index].parentElement.remove();
+          urrl[index].remove();
+        }
+      }
 });
 closeBtnAddProduct1.addEventListener("click", () => dialogAddProduct.close());
 closeBtnAddProduct2.addEventListener("click", () => dialogAddProduct.close());
@@ -157,13 +164,19 @@ function printCart() {
       let newQty = Number(productsCart[idx].numberOfProducts || 0) + 1;
 
       if (newQty > Number(p.stock)) {
-        Toastify({
-          text: "You’ve reached the stock limit for this product.",
-          duration: 2500,
-          gravity: "top",
-          position: "right",
-          close: true,
-        }).showToast();
+        let dialogCart = document.getElementById("dialogCart")
+        const scrollY = dialogCart?.scrollTop ?? 0;
+
+      Toastify({
+        text: "You’ve reached the stock limit for this product.",
+        duration: 2500,
+        gravity: "top",
+        position: "right",
+        close: true,
+        selector: dialogCart, 
+        offset: { y: scrollY + 12 }, 
+        className: "toast-z-top",
+      }).showToast();
       }
       newQty = Math.min(newQty, Number(p.stock));
 
@@ -379,17 +392,16 @@ document
         newQty * unitPrice(products[i])
       )}`;
     } else {
-      let host = dialogDetails?.open ? dialogDetails : document.body;
+      const scrollY = dialogDetails?.scrollTop ?? 0;
+
       Toastify({
         text: "You’ve reached the stock limit for this product.",
         duration: 2500,
         gravity: "top",
         position: "right",
         close: true,
-        selector: host,
-        style: {
-          zIndex: 9999,
-        },
+        selector: dialogDetails, 
+        offset: { y: scrollY + 12 }, 
         className: "toast-z-top",
       }).showToast();
     }
@@ -410,13 +422,18 @@ detailsAdd.addEventListener("click", function () {
 
   let available = Math.max(0, stock - inCart);
   if (available === 0) {
-    Toastify({
-      text: "You’ve reached the stock limit for this product.",
-      duration: 2500,
-      gravity: "top",
-      position: "right",
-      close: true,
-    }).showToast();
+    const scrollY = dialogDetails?.scrollTop ?? 0;
+
+      Toastify({
+        text: "You’ve reached the stock limit for this product.",
+        duration: 2500,
+        gravity: "top",
+        position: "right",
+        close: true,
+        selector: dialogDetails, 
+        offset: { y: scrollY + 12 }, 
+        className: "toast-z-top",
+      }).showToast();
     dialogDetails.close();
     return;
   }
@@ -435,15 +452,15 @@ detailsAdd.addEventListener("click", function () {
   dialogDetails.close();
 });
 
-function print(products) {
+function print(pros) {
   let cards = document.querySelector(".cards");
   cards.innerHTML = "";
 
-  products.forEach((product) => {
+  pros.forEach((product) => {
     cards.innerHTML += `
     <div
     
-            class="card bg-white max-w-4xs sm:max-w-3xs md:max-w-4xs w-[100%]  gap-2 rounded-xl py-6  hover:shadow-xl transition-all border-0 shadow-md pt-0 sm:h-[424px] flex flex-col opacity-100 translate-y-0 "
+            class="card bg-white max-w-4xs sm:max-w-3xs md:max-w-4xs w-[100%]  gap-2 rounded-xl py-6  hover:shadow-xl transition-all border-0 shadow-md pt-0 sm:h-[440px] flex flex-col opacity-100 translate-y-0 "
             id="${product.id}"
             >
             <div
@@ -674,14 +691,15 @@ function print(products) {
   for (let i = 0; i < productsView.length; i++) {
     productsView[i].addEventListener("click", function () {
       dialogDetails.showModal();
-
-      detailsEdite(i);
+      let index = products.indexOf(products.find((p) => p.id == pros[i].id));
+      detailsEdite(index);
     });
     productsView2[i].addEventListener("click", function () {
       let dialogDetails = document.getElementById("dialogDetails");
 
       dialogDetails.showModal();
-      detailsEdite(i);
+      let index = products.indexOf(products.find((p) => p.id == pros[i].id));
+      detailsEdite(index);
     });
   }
 
@@ -729,7 +747,11 @@ function print(products) {
       let inWish = productsWishList.some((p) => p.id === pid);
 
       if (inWish) {
-        productsWishList = productsWishList.filter((p) => p.id !== pid);
+        // productsWishList = productsWishList.filter((p) => p.id !== pid);
+        let index = productsWishList.indexOf(
+          productsWishList.find((p) => p.id == pid)
+        );
+        productsWishList.splice(index, 1);
       } else {
         productsWishList.push(products[pid - 1]);
       }
@@ -738,7 +760,7 @@ function print(products) {
       saveWish();
     });
     edites[i].addEventListener("click", function () {
-      document.getElementById("containerImagesEdite").innerHTML = ""
+      document.getElementById("containerImagesEdite").innerHTML = "";
       document.getElementById("containerImagesEdite").innerHTML = `
       <input
                 id="url1Edite"
@@ -746,8 +768,8 @@ function print(products) {
                 placeholder="Image URL 1"
                 value=""
               />
-      `
-      
+      `;
+
       DialogEditeProduct.showModal();
       DialogEditeProduct.dataset.productIndex = String(i);
 
@@ -756,18 +778,17 @@ function print(products) {
       });
       DialogEditeProduct.dataset.productIndex = String(i);
 
-      document.getElementById("titleEdite").value = products[i].title;
-      document.getElementById("descriptionEdite").value =
-        products[i].description;
-      document.getElementById("priceEdite").value = products[i].price;
-      document.getElementById("stockEdite").value = products[i].stock;
-      document.getElementById("categoryEdite").value = products[i].category;
-      document.getElementById("brandEdite").value = products[i].brand;
-      document.getElementById("url1Edite").value = products[i].images[0];
+      document.getElementById("titleEdite").value = pros[i].title;
+      document.getElementById("descriptionEdite").value = pros[i].description;
+      document.getElementById("priceEdite").value = pros[i].price;
+      document.getElementById("stockEdite").value = pros[i].stock;
+      document.getElementById("categoryEdite").value = pros[i].category;
+      document.getElementById("brandEdite").value = pros[i].brand;
+      document.getElementById("url1Edite").value = pros[i].images[0];
       let containerImagesEdite = document.getElementById(
         "containerImagesEdite"
       );
-      for (let index = 1; index < products[i].images.length; index++) {
+      for (let index = 1; index < pros[i].images.length; index++) {
         let newImage = document.createElement("div");
         newImage.innerHTML = `<input id="url${
           index + 1
@@ -776,12 +797,12 @@ function print(products) {
         }" value="">`;
         containerImagesEdite.append(newImage);
         document.getElementById(`url${index + 1}Edite`).value =
-          products[i].images[index];
+          pros[i].images[index];
       }
 
       document.getElementById("discountPercentageEdite").value =
-        products[i].discountPercentage;
-      document.getElementById("ratingEdite").value = products[i].rating;
+        pros[i].discountPercentage;
+      document.getElementById("ratingEdite").value = pros[i].rating;
       let urlEditeD = document.querySelectorAll(".urlEdite");
       for (let index = 0; index < urlEditeD.length; index++) {
         if (urlEditeD[index].value.trim() == "") {
@@ -799,15 +820,15 @@ printWish(productsWishList);
 updateCountersAndTotals();
 fillWishlistHearts();
 
-function printWish(productsWishList) {
+function printWish(listWishlist) {
   document.getElementById("productsWishlistCount").innerHTML = Number(
     productsWishList.length
   );
   document
     .getElementById("empty")
-    .classList.toggle("hidden", productsWishList.length > 0);
+    .classList.toggle("hidden", listWishlist.length > 0);
   document.getElementById("productCardWishList").innerHTML = "";
-  productsWishList.forEach((product) => {
+  listWishlist.forEach((product) => {
     let wishListCard = document.createElement("div");
     wishListCard.classList.add("space-y-4");
     wishListCard.setAttribute("id", `a${product.id}`);
@@ -874,26 +895,33 @@ function printWish(productsWishList) {
             `;
     document.getElementById("productCardWishList").append(wishListCard);
   });
-  for (let i = 0; i < productsWishList.length; i++) {
+  for (let i = 0; i < listWishlist.length; i++) {
     document
-      .getElementById(`view${productsWishList[i].id}`)
+      .getElementById(`view${listWishlist[i].id}`)
       .addEventListener("click", function () {
-        detailsEdite(Number(productsWishList[i].id) - 1);
+        detailsEdite(Number(listWishlist[i].id) - 1);
         dialogDetails.showModal();
       });
 
     document
-      .getElementById(`close${productsWishList[i].id}`)
+      .getElementById(`close${listWishlist[i].id}`)
       .addEventListener("click", function () {
         let id = Number(this.id.replace("close", ""));
-
+        console.log(id);
+        
         let cardEl = document.getElementById(`a${id}`);
         if (cardEl) cardEl.remove();
         // productsWishList = productsWishList.filter((p) => p.id !== id);
+        console.log(productsWishList);
+        
         let index = productsWishList.indexOf(
           productsWishList.find((p) => p.id == id)
         );
+        console.log(index);
+        
         productsWishList.splice(index, 1);
+        console.log(productsWishList);
+
         printWish(productsWishList);
         saveWish();
 
@@ -916,6 +944,9 @@ function printWish(productsWishList) {
       });
   }
 }
+
+
+
 
 function fillWishlistHearts() {
   let count = productsWishList.length;
@@ -1013,12 +1044,16 @@ document.getElementById("updateProduct").addEventListener("click", function () {
   let descriptionEdite = document.getElementById("descriptionEdite").value;
   let priceEdite = document.getElementById("priceEdite").value;
   let stockEdite = document.getElementById("stockEdite").value;
+  let discountPercentageEdite = document.getElementById(
+    "discountPercentageEdite"
+  ).value;
+  let ratingEdite = document.getElementById("ratingEdite").value;
   let categoryEdite = document.getElementById("categoryEdite").value;
   let brandEdite = document.getElementById("brandEdite").value;
   var inputsElements = document.querySelectorAll(`#DialogEditeProduct input`);
   let priceInput = document.getElementById("priceEdite");
   let stockInput = document.getElementById("stockEdite");
-  // let url1Edite = document.getElementById("url1Edite").value;
+
   let urlArryEdite = [];
   let urlsEdite = document.querySelectorAll(".urlEdite");
   for (let i = 0; i < urlsEdite.length; i++) {
@@ -1032,6 +1067,9 @@ document.getElementById("updateProduct").addEventListener("click", function () {
   products[i].description = descriptionEdite;
   products[i].price = priceEdite;
   products[i].stock = stockEdite;
+  products[i].discountPercentage = Number(discountPercentageEdite);
+  products[i].rating = Number(ratingEdite);
+
   products[i].category = categoryEdite;
   products[i].brand = brandEdite;
   products[i].images = urlArryEdite;
@@ -1051,9 +1089,30 @@ function search(userInput, arr, fun) {
     return product.title.toLowerCase().includes(userInput.toLowerCase().trim());
   });
   fun(filteredProducts);
-  if (filteredProducts.length == 0) {
+  if (document.querySelector(".cards").classList.contains("flex-col")){
+    rowLayout()
+  }
+  if (filteredProducts.length == 0 && fun == print) {
     document.getElementById("emptyState").classList.remove("hidden");
   }
+  if (filteredProducts.length == 0 && fun == printWish) {
+    document.getElementById("emptyStateWishlist").classList.remove("hidden");
+    document.getElementById("empty").classList.add("hidden");
+    if (productsWishList.length == 0){
+
+      document.getElementById("empty").classList.remove("hidden");
+    document.getElementById("emptyStateWishlist").classList.add("hidden");
+
+    }
+  }
+  if (filteredProducts.length != 0 && fun == printWish) {
+    document.getElementById("emptyStateWishlist").classList.add("hidden");
+    if (productsWishList.length == 0){
+
+      document.getElementById("empty").classList.remove("hidden");
+    }
+  }
+
 }
 
 document
@@ -1067,6 +1126,8 @@ document
   .getElementById("searchInputWishList")
   .addEventListener("input", function () {
     let userInput = document.getElementById("searchInputWishList").value.trim();
+    console.log(productsWishList);
+    
     search(userInput, productsWishList, printWish);
   });
 
@@ -1127,12 +1188,11 @@ function validate(inputsElements, priceInput, stockInput) {
 
 let addImages = document.getElementById("addImages");
 let url11 = document.getElementById("url1");
-let k = 1;
 addImages.addEventListener("click", function () {
-  k++;
+  let uurl = document.querySelectorAll(".url")
 
   let newImage = document.createElement("div");
-  newImage.innerHTML = `<input id="url${k}" class="h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary url" placeholder="Image URL ${k}" value="">`;
+  newImage.innerHTML = `<input id="url${uurl.length + 1}" class="h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 shadow-xs transition-[color,box-shadow] md:text-sm focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none border-secondary url" placeholder="Image URL ${uurl.length + 1}" value="">`;
   containerImages.append(newImage);
 });
 let addImagesDetails = document.getElementById("addImagesDetails");
@@ -1178,7 +1238,7 @@ function rowLayout() {
   let imggg = document.querySelectorAll(".imggg");
   let footerProduct = document.querySelectorAll(".footer-product");
   for (let i = 0; i < cards.length; i++) {
-    cards[i].classList.remove("sm:h-[424px]");
+    cards[i].classList.remove("sm:h-[440px]");
     cards[i].classList.remove("max-w-4xs");
     cards[i].classList.remove("sm:max-w-3xs");
     cards[i].classList.remove("py-6");
@@ -1217,7 +1277,7 @@ function gridLayout() {
   let footerProduct = document.querySelectorAll(".footer-product");
 
   for (let i = 0; i < cards.length; i++) {
-    cards[i].classList.add("sm:h-[424px]");
+    cards[i].classList.add("sm:h-[440px]");
     cards[i].classList.add("max-w-4xs");
     cards[i].classList.add("sm:max-w-3xs");
 
@@ -1263,17 +1323,25 @@ let groceries = document.getElementById("groceries");
 
 all.addEventListener("click", function () {
   print(products);
+  if (document.querySelector(".cards").classList.contains("flex-col")){
+    rowLayout()
+  }
   menu.classList.add("hidden");
-  btn.innerHTML = `All
+  btn.innerHTML = `All Products
   <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>`;
+  // focus:border-primary focus:ring-1 focus:ring-accent focus:outline-none
+
 });
 beauty.addEventListener("click", function () {
   let beautyArr = products.filter(function (p) {
     return p.category == "beauty";
   });
   print(beautyArr);
+  if (document.querySelector(".cards").classList.contains("flex-col")){
+    rowLayout()
+  }
   menu.classList.add("hidden");
   btn.innerHTML = `Beauty
   <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1285,6 +1353,9 @@ fragrances.addEventListener("click", function () {
     return p.category == "fragrances";
   });
   print(fragrancesArr);
+  if (document.querySelector(".cards").classList.contains("flex-col")){
+    rowLayout()
+  }
   menu.classList.add("hidden");
   btn.innerHTML = `Fragrances
   <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1296,6 +1367,9 @@ furniture.addEventListener("click", function () {
     return p.category == "furniture";
   });
   print(furnitureArr);
+  if (document.querySelector(".cards").classList.contains("flex-col")){
+    rowLayout()
+  }
   menu.classList.add("hidden");
   btn.innerHTML = `Furniture
   <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1307,6 +1381,9 @@ groceries.addEventListener("click", function () {
     return p.category == "groceries";
   });
   print(groceriesArr);
+  if (document.querySelector(".cards").classList.contains("flex-col")){
+    rowLayout()
+  }
   menu.classList.add("hidden");
   btn.innerHTML = `Groceries
   <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
