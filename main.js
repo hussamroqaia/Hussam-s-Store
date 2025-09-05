@@ -279,7 +279,7 @@ function detailsEdite(i) {
   <img
               id="detailsImg1"
               alt=""
-              class="imgDet w-18 h-18 object-cover rounded cursor-pointer ring-2 ring-primary mt-1 ml-1 hover:ring-primary transition"
+              class="imgDet w-16 h-16 lg:w-20 lg:h-20 flex-none object-cover rounded cursor-pointer ring-2 ring-white/30 hover:ring-primary transition mt-1 ml-1 snap-start"
               src=""
             />
   `;
