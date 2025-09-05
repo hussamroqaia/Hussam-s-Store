@@ -1,4 +1,7 @@
 let products = [];
+let products1 = [];
+let products2 = [];
+let products3 = [];
 let productsCart = [];
 let productsWishList = [];
 let localProducts = JSON.parse(localStorage.getItem("products"));
@@ -193,14 +196,35 @@ function printCart() {
 }
 
 async function getProducts() {
-  let response = await fetch("https://dummyjson.com/products");
-  let data = await response.json();
+  let response1 = await fetch("https://dummyjson.com/products?limit=10&skip=0");
+  let data1 = await response1.json();
 
+  let response2 = await fetch(
+    "https://dummyjson.com/products?limit=10&skip=10"
+  );
+  let data2 = await response2.json();
+
+  let response3 = await fetch(
+    "https://dummyjson.com/products?limit=10&skip=20"
+  );
+  let data3 = await response3.json();
+
+  products1 = data1.products;
+  products2 = data2.products;
+  products3 = data3.products;
   if (products.length == 0) {
-    products = data.products;
-  }
+    products = products1.concat(products2).concat(products3);
+  } else {
+    products.splice(0, 20);
+    products3 = products;
+    console.log("333");
 
-  print(products);
+    console.log(products3);
+    products = products1.concat(products2).concat(products3);
+  }
+  console.log(products);
+
+  print(products1);
 }
 
 getProducts();
@@ -1032,7 +1056,7 @@ document.getElementById("addProduct").addEventListener("click", function () {
   products.push(newProduct);
   saveProducts();
 
-  print(products);
+  print(products1);
   dialogAddProduct.close();
 });
 
@@ -1433,4 +1457,29 @@ clearSearchBtn.addEventListener("click", function () {
 explore.addEventListener("click", function () {
   document.getElementById("dropdownBtn").focus();
   document.getElementById("dropdownBtn").click();
+});
+
+let btnsPag = document.querySelectorAll(".join-item");
+function removeActivePag() {
+  for (let index = 0; index < btnsPag.length; index++) {
+    btnsPag[index].classList.remove("btn-active");
+  }
+}
+
+document.getElementById("pag1").addEventListener("click", function () {
+  removeActivePag();
+  document.getElementById("pag1").classList.add("btn-active");
+  print(products1);
+});
+
+document.getElementById("pag2").addEventListener("click", function () {
+  removeActivePag();
+  document.getElementById("pag2").classList.add("btn-active");
+  print(products2);
+});
+
+document.getElementById("pag3").addEventListener("click", function () {
+  removeActivePag();
+  document.getElementById("pag3").classList.add("btn-active");
+  print(products3);
 });

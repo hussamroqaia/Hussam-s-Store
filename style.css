@@ -7,17 +7,17 @@ dialog:not([open]) {
     }
     .scrollbar::-webkit-scrollbar-track {
       background: #e0e1dd;
-      border-radius: 9999px; /* round the track */
+      border-radius: 9999px;
     }
     .scrollbar::-webkit-scrollbar-track {
-      background: #8D99AE; /* light background */
+      background: #8D99AE;
     }
     .scrollbar::-webkit-scrollbar-thumb {
-      background-color: #2B2D42; /* your primary */
+      background-color: #2B2D42;
       border-radius: 9999px;
     }
     .scrollbar::-webkit-scrollbar-thumb:hover {
-      background-color: #023047; /* darker on hover */
+      background-color: #023047;
       
     }
   }
